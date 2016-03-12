@@ -1,0 +1,24 @@
+<h2 class="pageHeading" ng-show="!success">Request a lift for next journey</h2><hr>
+<div class="col-md-12 removePaddingWhenSmall">    
+    <div class="alert alert-danger" ng-show="error">
+       <strong>Journey Request registration failed!</strong> Please check your inputs and <a ui-sref='addJourneyRequest.source' ng-click="resetError()">try again </a>.
+    </div>   
+	<form name="form" ng-show="!success" ng-submit="processForm()" role="form" novalidate show-validation >
+	  	<div  ui-view="form-content" class="col-lg-6 removePaddingWhenSmall"></div>
+	</form>
+	<div ng-show="!success" class="list-group">
+		<div class="col-md-6 myRoute removePaddingWhenSmall" >
+			<h3 class="list-group-item active smallerText">My Route:</h3>
+			<div class="main-block list-group-item">					
+				<label id="labelPadding" class="smallerText">Source: </label>&#xA0;
+					<label class="smallerText"><em>{{journeyRequest.source}}</em></label><br>
+				<label id="labelPadding" class="smallerText">Destination: </label>&#xA0;
+					<label class="smallerText"><em>{{journeyRequest.destination}}</em></label><br>
+				<label id="labelPadding" class="smallerText">Distance: </label>&#xA0;
+					<label id="distanceLabel" class="smallerText"></label><br>
+	        </div>
+		<my-map id="map_canvas"></my-map>
+      </div> 
+    </div>	 	  
+</div>
+	

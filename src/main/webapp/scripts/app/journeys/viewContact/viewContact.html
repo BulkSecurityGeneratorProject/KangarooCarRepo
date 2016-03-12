@@ -1,0 +1,48 @@
+<a id="bts" href ng-click="goBack()"><span class="glyphicon glyphicon-arrow-left iconLink"></span>&#xA0;<b class="smallerText">Go back to profile</b></a>
+<h2 class="pageHeading">Selected journey request</h2><hr>
+<div id="newPage">
+	<div class="list-group">
+		<div class="list-group-item active" >
+			<label class="smallerText">{{journey.source}} to {{journey.destination}}</label>
+		</div>	
+	<div class="list-group-item row removeMarginLR" style="z-index: 100">
+		<div id="rideInfo" class="noMarginBtm">
+			<dl class="dl-horizontal noMarginBtm">
+				<dt>Pick up Point</dt>
+					<dd>{{journey.pickUpLocation}}</dd>
+				<dt>Drop off Point</dt>
+					<dd>{{journey.destination}}</dd>
+				<dt>Departure date</dt>
+					<dd>{{journey.date | date}}</dd>
+				<dt>Departure time</dt>
+					<dd>{{journey.time}}<button type="button" class="btn btn-primary floatRight" ui-sref="request({requestId: journey.id})">View Request</button></dd>	
+			</dl>				
+		</div>
+	</div>
+	<br>
+		<div>		
+			<div ng-show="!contacts.length" class="alert alert-info">
+		   		<div class="list-group-item">
+		   			<h3>No offers have been made on this journey request</h3>
+		   		</div>
+		   	</div>
+			<div ng-repeat="contact in contacts">
+				<div class="list-group-item bidBox " ng-class="colSize">
+					<div>
+						<dl class="dl-horizontal noMarginBtm">
+							<dt><img id="myLink" class="BorderStyle" ui-sref="profile({username: contact.userName})" 
+		   	 						ng-src='/user/profile/getProfilePicture/{{contact.userName}}'alt='picture' /></dt>
+								<dd><a ui-sref="profile({username: contact.userName})">{{contact.userName}}</a>
+									<button type="button" class="btn btn-primary floatRight" ui-sref="journey({journeyId: contact.journeyId})">View Offer</button>
+								</dd>								
+						</dl>
+					</div>
+					<div>
+						<label>Message:</label> <time class="floatRight" am-time-ago="contact.date" title="{{ contact.date | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}"></time>
+	           			<textarea id="commentBox" class="form-control" name="message" ng-model="contact.message" readonly></textarea>
+					</div>
+				</div> 	
+			</div>	
+		</div>
+	</div>
+</div>

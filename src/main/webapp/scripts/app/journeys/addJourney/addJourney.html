@@ -1,0 +1,64 @@
+<div class="col-md-12 list-group special removePaddingWhenSmall" >
+	<h3 class="list-group-item active smallerText">Pickup and dropoff points</h3>
+	<div class="list-group-item">
+		<p class="smallerText">Please fill in the following form to register a journey</p>		
+		<fieldset class="main-block">			
+			<label >Departure</label>
+			<input type="text" id="source" name="source" class="form-control smallerText"  ng-model="journey.source" maxlength="60"
+					ng-minlength=1 ng-maxlength=50 ng-autocomplete  placeholder="Enter Departure (address)" required
+					data-toggle="tooltip" data-placement="top" data-original-title="Enter a specific departure point that's convenient for passengers.">							
+			<div ng-show="form.source.$dirty && form.source.$invalid">
+                <p class="help-block" ng-show="form.source.$error.required" >
+                    Source is required.
+                </p>
+                <p class="help-block" ng-show="form.source.$error.maxlength" >
+                    Source cannot be longer than 50 characters
+                </p>	               
+            </div>	
+       	</fieldset>      	
+       	<fieldset class="main-block">    	
+			<label>Arrival</label>				
+			<input type="text" id="destination" name="destination" class="form-control smallerText" ng-model="journey.destination" maxlength="60"
+					ng-autocomplete ng-minlength=1 ng-maxlength=50 placeholder="Enter Arrival (address)"  required
+					data-toggle="tooltip" data-placement=top data-original-title="Enter a specific arrival point.">
+												
+			<div ng-show="form.destination.$dirty && form.destination.$invalid">
+                <p class="help-block" ng-show="form.destination.$error.required" >
+                    Destination is required.
+                </p>
+                <p class="help-block" ng-show="form.destination.$error.maxlength" >
+                    Destination cannot be longer than 50 characters
+                </p>	               
+            </div>            
+        </fieldset>		  			
+	</div>	
+	<div class="col-md-12 list-group-item">
+		<div class="col-md-9 dateDisplayDiv smallerText removePaddingWhenSmall">		
+		<label class="list-group-item active dateDisplay smallerText" ng-show="!clickedDate">Departing: {{labelDate|date:'fullDate'}}</label>
+          	<label class="list-group-item active dateDisplay smallerText" ng-show="clickedDate" ng-model="labelDate">Departing: {{labelDate|date:'fullDate'}}</label><br>	
+            <div>
+      			<datepicker name="mydate" ng-model="dt" ng-change="labelDate=dt" min-date="minDate" type="date" ng-click="clickedDate = true;"
+      					show-weeks="true" class="" custom-class="getDayClass(date, mode)">
+      			</datepicker>
+    		</div>	
+            <input type="hidden" id="dateTxt" value="{{labelDate | date:'yyyy-MM-dd'}}" ng-init="toggleMin();toggleToday();" /> 
+
+		</div>
+		<div class="col-md-3 timeDisplayDiv">
+			<label class="list-group-item active timeDisplayLbl smallerText" ng-show="!clickedTime">At: {{labelTime|date:'shortTime'}}</label>
+			<label class="list-group-item active timeDisplayLbl smallerText" ng-show="clickedTime" ng-model="labelTime">At: {{labelTime | date:'shortTime'}}</label>
+		
+			<timepicker ng-model="mytime" ng-change="labelTime= mytime"  hour-step="hstep" minute-step="mstep" 
+													show-meridian="ismeridian" ng-click="clickedTime = true"></timepicker> 
+            <input type="hidden" id="timeTxt" value="{{labelTime | date:'shortTime'}}" ng-init="toggleTime()"/> 
+		</div>		
+	</div>
+</div>
+<div align="right">
+	<button class="btn btn-primary" ng-disabled="form.$invalid"
+		ui-sref="addJourney.additionalInfo"
+		ng-click="showJourneyDateTime(); calcRoute(); addTime(); addDate();">Continue &rarr;</button>
+</div>
+
+
+

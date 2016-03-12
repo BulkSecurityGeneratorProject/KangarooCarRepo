@@ -1,0 +1,88 @@
+<a id="bts" href ng-click="goBack()"><span class="glyphicon glyphicon-arrow-left iconLink"></span>&#xA0;<b class="smallerText">Go back to profile</b></a>
+<h2 class="pageHeading">Selected journey</h2><hr>
+<div class="list-group" id="newPage">
+	<div class="list-group-item active" >
+		<h4>Bids on my journey</h4>
+	</div>	
+	<div class="list-group-item" >
+		<div class="addPadding">
+			<dl class="dl-horizontal noMarginBtm">
+				<dt><em>{{journey.source}}</em>&#xA0;&#xA0;<span class="glyphicon glyphicon-arrow-right"></span></dt>
+					<dd><em><label>{{journey.destination}}</label></em></dd>
+				<dt>Departing on:</dt>
+					<dd>{{journey.date | date: 'mediumDate'}}</dd>
+				<dt>At:</dt>
+					<dd>{{journey.time}}</dd>
+				<dt>Minimum Cost:</dt>
+					<dd>{{journey.cost | currency:"&euro;"}}
+						<button type="button" class="btn btn-primary floatRight" ui-sref="journey({journeyId: journey.id})">View</button>
+					</dd>
+				
+			</dl>		
+			<!--<div>
+		  		<button type="button" class="btn btn-primary floatRight" ui-sref="journey({journeyId: journey.id})">View</button>
+	  		</div>
+			<em><label>{{journey.source}}</label></em>&#xA0;&#xA0;<span class="glyphicon glyphicon-arrow-right"></span> <em><label>{{journey.destination}}</label></em>
+			<table>
+		  		<tr>
+		 			<td><label>Departing on:</label>&#xA0;</td>	<td>{{journey.date | date: 'mediumDate'}}</td>
+			  	</tr>
+			  	<tr>
+		 			<td><label>At:</label>&#xA0;</td>
+			  		<td>{{journey.time}}</td>
+			  	</tr>
+			  	<tr>
+		 			<td><label>Minimum Cost:</label>&#xA0;&#xA0;</td>
+			  		<td>{{journey.cost | currency:"&euro;"}}</td>
+			  	</tr>		  
+		  	</table>-->
+	  	</div>	  	
+	</div>
+	
+	<div class="list-group-item removePadding transparent"  >		
+		<div class="list-group-item form-group" id="fieldset">
+			<label>Bid Status</label>
+	    	<select ng-init="view = values[0]" class="form-control" name="view" ng-model="view" ng-minlength=1 required ng-change="">
+	    		<option ng-repeat="value in values" value="{{value}}">{{value}}</option>
+	    	</select>
+	    </div>          		
+		<div ng-show="!bids.length" class="alert alert-info">
+	   		<div class="list-group-item">
+	   			<h3 class="smallerText">No bids have been made on this journey</h3>
+	   		</div>
+	   	</div>
+	   	<div class="row">
+			<div ng-repeat="bid in bids">
+		   		<div class="removePadding bidBox" ng-class="colSize" ng-show = "bid.status == view || view == 'All'">
+			   		<div class="list-group-item" >
+			   	 		<img id="myLink" ui-sref="profile({username: bid.userName})" class="BorderStyle" ng-src='/user/profile/getProfilePicture/{{bid.userName}}'  />
+			   	 		 <h4 class="list-group-item-heading" >
+							<a ui-sref="profile({username: bid.userName})">{{bid.userName}}</a>
+					     </h4>					     
+			   	 		<table>
+					  		<tr>
+					 			<td><label>Bid:</label>&#xA0;</td>	<td><label class="txtSizeLrg">{{bid.bid | currency:"&euro;"}}</label></td>
+						  	</tr>
+						  	<tr>
+					 			<td class="paddingTop"><label>Status:</label>&#xA0;</td> <td ng-class="getBidColor(bid.status);"><b class="fontSize">{{bid.status}}</b></td>
+						  	</tr>
+						  	<tr>
+					 			<td><label>Pick up point: </label>&#xA0;&#xA0;</td>	<td>{{bid.pickupLocation}}</td>
+						  	</tr>
+						  	<tr>
+					 			<td><label>Drop off point: </label>&#xA0;&#xA0;</td>	<td>{{bid.dropOffLocation}}</td>
+						  	</tr>	  
+					  	</table>
+			   	 		
+			   	 		<div id="acceptDecline" ng-show="bid.status == 'pending'" aria-hidden="true">
+					     	<div class="btn-group">
+								<button type="button" ng-controller="ModalDemoCtrl" ng-click="bidId = bid.id; open('acceptDialog.html')" class="btn btn-primary btnAccept" ng-show="!journey.seatNumber <=0">accept</button>
+								<button type="button" ng-controller="ModalDemoCtrl" ng-click="bidId = bid.id; open('rejectDialog.html')" class="btn btn-primary btnReject">reject</button>
+							</div>
+					    </div>
+			   	 	</div>
+		   	 	</div>		    
+			</div>
+		</div>
+	</div>		
+</div>

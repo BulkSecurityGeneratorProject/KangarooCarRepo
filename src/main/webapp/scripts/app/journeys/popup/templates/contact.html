@@ -1,0 +1,54 @@
+<div class="modal-header list-group-item active" ng-init="getMyJourneys()">
+    <h3 class="modal-title">Contact Passenger</h3>
+</div>
+<div class="modal-body">
+    <form  role="form" name="form" ng-show="!success" novalidate show-validation ng-controller="ContactPassengerController">
+        <div class="alert alert-danger" ng-show="contactFail">
+            <strong>An Error occurred</strong>
+        </div>
+        <div class="alert alert-success" ng-show="contactSuccess" >
+                <strong>Message sent!</strong>
+            </div>
+        <div class="form-group">
+            <label>Message</label>
+            <textarea id="txtArea" rows="7" type="text" class="form-control" name="message" placeholder="Enter message" 
+            			ng-model="message" ng-minlength=4 ng-maxlength=255 required></textarea>
+        	<div ng-show="form.message.$dirty && form.message.$invalid">
+                <p class="help-block"
+                       ng-show="form.message.$error.required" >
+                    Message can not be empty
+                </p>
+                <p class="help-block"
+                       ng-show="form.message.$error.minlength" >
+                    Your message is too short
+                </p>
+                <p class="help-block"
+                       ng-show="form.message.$error.maxlength" >
+                    Your message is too long
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+        	<label>Journey to advertise</label>
+        	<select class="form-control" name="selectedJourney" ng-model="journeyId" ng-minlength=1 required >
+        		<option value="" disabled selected>Select journey</option>
+        		<option ng-repeat="journey in journeys.content" value="{{journey.id}}">{{journey.source}} to {{journey.destination}}</option>
+        	</select>
+        	<div ng-show="form.selectedJourney.$dirty && form.selectedJourney.$invalid">
+                <p class="help-block"
+                       ng-show="form.message.$error.required" >
+                    Pick a journey
+                </p>
+                <p class="help-block"
+                       ng-show="form.message.$error.minlength" >
+                    Pick a journey
+                </p>
+            </div>
+        </div>
+        
+        <div>
+        	<button class="btn btn-primary" id="submitBid" ng-disabled="form.$invalid" ng-click="addContactPassenger()">Submit</button>
+    		<button class="btn btn-primary" ng-click="cancel()">Close</button>
+        </div>
+	</form>
+</div>

@@ -1,0 +1,27 @@
+<h2 class="pageHeading" ng-show="!success">Offer a ride on your next journey</h2><hr>
+<div class="col-md-12 removePaddingWhenSmall">	
+    <div class="alert alert-danger" ng-show="error">
+       <strong>Journey registration failed!</strong> Please check your inputs and <a ui-sref='addJourney.source' ng-click="resetError()">try again </a>.
+    </div>
+	<form name="form" ng-show="!success" ng-submit="processForm()" role="form" novalidate show-validation class="form-horizontal">
+	  	<div ui-view="form-content" class="col-lg-6 removePaddingWhenSmall"></div>
+	</form>
+	<div ng-show="!success" class="list-group">
+		<div class="col-md-6 myRoute removePaddingWhenSmall">
+			<h3 class="list-group-item active smallerText">My Route</h3>
+			<div class="main-block list-group-item">			
+				<label id="labelPadding" class="smallerText">Source: </label>&#xA0;
+					<label class="smallerText"><em>{{journey.source}}</em></label><br>
+				<label id="labelPadding" class="smallerText">Destination: </label>&#xA0;
+					<label class="smallerText"><em>{{journey.destination}}</em></label><br>
+				<label id="labelPadding" class="smallerText">Distance: </label>&#xA0;
+					<label id="distanceAndTime"  class="smallerText"></label><br>
+				<label id="hiddenRecomendedCost"></label>
+				<label id="labelPadding" class="smallerText">
+					<p class="help-block"><label class='glyphicon glyphicon-info-sign'></label> Drag route to alter journey </p>
+				</label>
+	        </div>    
+			<my-map id="map_canvas"></my-map>		
+    	</div>   
+	</div> 		  
+</div>

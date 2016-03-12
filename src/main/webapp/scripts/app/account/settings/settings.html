@@ -1,0 +1,185 @@
+<div class="row" id="newPage">
+	<div class="col-md-8 col-md-offset-2">
+        <h2 class="pageHeading">User settings for {{settingsAccount.login}}</h2>
+		<accordion id="custom-accord" close-others="true">
+			<accordion-group is-open="true">
+				<accordion-heading>
+					<div>
+						<span>
+							<i class="smallerText">Edit user details
+								<i id="icon" class="glyphicon glyphicon-chevron-down"></i>
+							</i>
+						</span>
+					</div>
+				</accordion-heading>
+				<form name="form" role="form" novalidate ng-submit="save()" class="addPadding" show-validation ng-model=collapse>
+					<div class="alert alert-success" ng-show="success" translate="settings.messages.success">
+				       	<strong>Details saved!</strong>
+				    </div>
+				    <div class="alert alert-danger" ng-show="errorEmailExists" translate="settings.messages.error.emailexists">
+				        <strong>E-mail is already in use!</strong> Please choose another one.
+				    </div>		
+				    <div class="alert alert-danger" ng-show="error" translate="settings.messages.error.fail">
+				        <strong>An error has occurred!</strong> Settings could not be saved.
+				    </div>
+				   	<div class="form-group">
+				       	<label translate="settings.form.firstname">First Name</label>
+				       	<input type="text" class="form-control" name="firstName" placeholder="{{'settings.form.firstname.placeholder' | translate}}"
+				              ng-model="settingsAccount.firstName" ng-minlength=1 ng-maxlength=50 required maxlength="50">
+				       	<div ng-show="form.firstName.$dirty && form.firstName.$invalid">
+				           	<p class="help-block"
+				                  ng-show="form.firstName.$error.required" translate="settings.messages.validate.firstname.required">
+				               Your first name is required.
+				           	</p>
+				           	<p class="help-block"
+				                  ng-show="form.firstName.$error.minlength" translate="settings.messages.validate.firstname.minlength">
+				               Your first name is required to be at least 1 character
+				           	</p>
+				           	<p class="help-block"
+				                  ng-show="form.firstName.$error.maxlength" translate="settings.messages.validate.firstname.maxlength">
+				               Your first name cannot be longer than 50 characters
+				           	</p>
+				       	</div>
+				   	</div>
+					<div class="form-group">
+				  		<label translate="settings.form.lastname">Last Name</label>
+				   		<input type="text" class="form-control" name="lastName" placeholder="{{'settings.form.lastname.placeholder' | translate}}"
+				          ng-model="settingsAccount.lastName" ng-minlength=1 ng-maxlength=50 required maxlength="50">
+					   	<div ng-show="form.lastName.$dirty && form.lastName.$invalid">
+					    	<p class="help-block"
+					              ng-show="form.lastName.$error.required" translate="settings.messages.validate.lastname.required">
+					           Your last name is required.
+					       	</p>
+					       	<p class="help-block"
+					              ng-show="form.lastName.$error.minlength" translate="settings.messages.validate.lastname.minlength">
+					           Your last name is required to be at least 1 character
+					       	</p>
+					       	<p class="help-block"
+					              ng-show="form.lastName.$error.maxlength" translate="settings.messages.validate.lastname.maxlength">
+					           Your last name cannot be longer than 50 characters
+					       	</p>
+					   	</div>
+					</div>
+				   	<div class="form-group">
+				       	<label translate="global.form.email">E-mail</label>
+				       	<input type="email" class="form-control" name="email" placeholder="{{'global.form.email.placeholder' | translate}}"
+				              ng-model="settingsAccount.email" ng-minlength=5 ng-maxlength=100 required maxlength="100" readonly>
+				       	<div ng-show="form.email.$dirty && form.email.$invalid">
+				           	<p class="help-block"
+				                  ng-show="form.email.$error.required" translate="global.messages.validate.email.required">
+				               Your e-mail is required.
+				           	</p>
+				           	<p class="help-block"
+				                  ng-show="form.email.$error.email" translate="global.messages.validate.email.invalid">
+				               Your e-mail is invalid.
+				           	</p>
+				           	<p class="help-block"
+				                  ng-show="form.email.$error.minlength" translate="global.messages.validate.email.minlength">
+				               Your e-mail is required to be at least 5 characters
+				           	</p>
+				           	<p class="help-block"
+				                  ng-show="form.email.$error.maxlength" translate="global.messages.validate.email.maxlength">
+				               	Your e-mail cannot be longer than 100 characters
+				           	</p>
+				       	</div>
+				   	</div>		
+				   	<button type="submit" ng-disabled="form.$invalid" class="btn btn-primary" translate="settings.form.button">Save</button>
+				</form>
+			</accordion-group>
+			<accordion-group>
+		      	<accordion-heading>
+		      		<div>
+		    			<span><i class="smallerText">Change Profile Picture<i id="icon" class="glyphicon glyphicon-chevron-down"></i></i></span>
+		    		</div>
+		    	</accordion-heading>
+      			<form name="form" role="form" novalidate show-validation ng-submit="uploadFile()" class="addPadding"  enctype="multipart/form-data">			
+					<div class="alert alert-success" ng-show="successProfilePic">
+		                <strong>Profile Picture updated</strong>
+		            </div>
+					<div class="alert alert-danger" ng-show="errorProfilePic">
+                		<strong>An error has occurred!</strong> Could not upload image.
+            		</div>
+					<div class="form-group">
+						<div>
+							<input type = "hidden" id="hiddenName" name = "userName" value = "{{profilePic.userName}}">
+
+						</div>
+						<div>
+							<img class="picHW" ng-src='/user/profile/getProfilePicture/{{profilePic.userName}}' alt='' accept="image/*">
+						</div>
+						<br />
+						<div>
+							<input required alt="my image"  name="profilePicture" type="file" ng-model="document.fileInput" id="file" 
+							 onchange="angular.element(this).scope().readURL(this);" />
+						</div>
+						<br class="hidden-md hidden-lg hidden-sm">
+						<br class="hidden-md hidden-lg hidden-sm">
+						<br>
+						<div ng-controller="ModalDemoCtrl">
+							<input type="submit" ng-disabled="validFile" value="Upload" class="btn btn-primary btn-md" >
+						</div>			
+					</div>
+				</form>	
+    		</accordion-group>
+			<accordion-group>
+	      		<accordion-heading>
+		      		<div>
+		    			<span><i class="smallerText">Change Password<i id="icon" class="glyphicon glyphicon-chevron-down"></i></i></span>
+		    		</div>
+	    		</accordion-heading>
+	   			<form name="form" role="form" novalidate ng-submit="changePassword()" class="addPadding" show-validation ng-controller="PasswordController">
+					<div class="alert alert-success" ng-show="success">
+	                	<strong>Password changed!</strong>
+	            	</div>
+		            <div class="alert alert-danger" ng-show="error"  >
+		                <strong>An error has occurred!</strong> The password could not be changed.
+		            </div>
+		            <div class="alert alert-danger" ng-show="doNotMatch" >
+		                The password and its confirmation do not match!
+		            </div>
+	               	<div class="form-group">
+	                   	<label translate="global.form.newpassword">New password</label>
+	                   	<input type="password" class="form-control" name="password" placeholder="{{'global.form.newpassword.placeholder' | translate}}"
+	                          ng-model="password" ng-minlength=5 ng-maxlength=50 required>
+	                   	<div ng-show="form.password.$dirty && form.password.$invalid">
+	                       	<p class="help-block"
+	                          ng-show="form.password.$error.required" translate="global.messages.validate.newpassword.required">
+	                           Your password is required.
+	                       	</p>
+	                       	<p class="help-block"
+	                          ng-show="form.password.$error.minlength" translate="global.messages.validate.newpassword.minlength">
+	                           Your password is required to be at least 5 characters
+	                       	</p>
+	                       	<p class="help-block"
+	                          ng-show="form.password.$error.maxlength" translate="global.messages.validate.newpassword.maxlength">
+	                           Your password cannot be longer than 50 characters
+	                       	</p>
+	                   	</div>
+	                   	<password-strength-bar password-to-check="password"></password-strength-bar>
+	            	</div>
+	               	<div class="form-group">
+	                   	<label translate="global.form.confirmpassword">New password confirmation</label>
+	                   	<input type="password" class="form-control" name="confirmPassword" placeholder="{{'global.form.confirmpassword.placeholder' | translate}}"
+	                          ng-model="confirmPassword" ng-minlength=5 ng-maxlength=50 required>
+	                   	<div ng-show="form.confirmPassword.$dirty && form.confirmPassword.$invalid">
+	                       	<p class="help-block"
+	                          ng-show="form.confirmPassword.$error.required" translate="global.messages.validate.confirmpassword.required">
+	                           Your password confirmation is required.
+	                       	</p>
+	                       	<p class="help-block"
+	                          ng-show="form.confirmPassword.$error.minlength" translate="global.messages.validate.confirmpassword.minlength">
+	                           Your password confirmation is required to be at least 5 characters
+	                       	</p>
+	                       	<p class="help-block"
+	                          ng-show="form.confirmPassword.$error.maxlength" translate="global.messages.validate.confirmpassword.maxlength">
+	                           Your password confirmation cannot be longer than 50 characters
+	                       	</p>
+	                   	</div>
+	               	</div>
+	               	<button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">Save</button>
+	           	</form>
+			</accordion-group>
+		</accordion>  
+	</div>
+</div>
+

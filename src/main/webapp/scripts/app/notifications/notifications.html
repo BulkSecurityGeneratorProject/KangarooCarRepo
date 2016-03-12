@@ -1,0 +1,29 @@
+<div class="col-sm-12 removePaddingWhenSmall list-group" id="newPage">
+	<div class="list-group-item active">
+		<h4 class="list-group-item-heading">Notifications</h4>
+	</div>
+	<div class="list-group-item lgiNotificationBody">
+		<div ng-show="notifications.content.length==0" align="center">
+			<h2>No notifications</h2>
+		</div>
+		<div ng-repeat="notification in notifications.content">
+			<div class="singleNotificationBody"
+				ng-click="linkTo(notification.link)">
+				<div class="notificationMainLine">
+					<a ui-sref="profile({username: notification.senderName})"><img
+						ng-src="user/profile/getProfilePicture/{{notification.senderName}}"
+						class='notificationPic'> {{notification.senderName}}</a> <b>{{notification.message}}</b>
+				</div>
+				<div align="right">
+					<time class="timeForNotifications" am-time-ago="notification.date"
+						title="{{ notification.date | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}"></time>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div align="center"
+		class="list-group-item active notificationBottomRow">
+		<a class="notificationFooterLink" href ng-show="hasMore"
+			ng-click="showMore()">more</a>
+	</div>
+</div>

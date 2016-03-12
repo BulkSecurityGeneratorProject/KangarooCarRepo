@@ -1,0 +1,23 @@
+{
+    "findJourneys": {
+        "title": "Find Journeys"
+    },
+    "journey": {
+    	"title": "Journey Details"
+    },
+    "addJourney": {
+        "title": "Add Journey"
+    },
+    "findRequests": {
+        "title": "Find Journey Request"
+    },
+    "journeyRequest": {
+    	"title": "Journey Request Details"
+    },
+    "addJourneyRequest": {
+    	"title": "Add Journey Request"
+    },
+    "profile": {
+    	"title": "Profile"
+    }
+}

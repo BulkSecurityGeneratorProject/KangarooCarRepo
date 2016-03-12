@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <property name="now" value="now()" dbms="mysql,h2"/>
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+
+    <changeSet id="00000000000000" author="jhipster" dbms="postgresql">
+        <createSequence sequenceName="hibernate_sequence" startValue="1000" incrementBy="1"/>
+    </changeSet>
+
+    <!--
+        JHipster core tables.
+        The initial schema has the '00000000000001' id, so that it is over-written if we re-generate it.
+    -->
+    <changeSet id="00000000000002" author="carshare">
+        <createTable tableName = "makes">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="make" type="varchar(255)" >
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        
+        <createTable tableName = "makeandmodel">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="makeId" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="model" type="varchar(255)" >
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/makes.csv"
+                  separator=";"
+                  tableName="makes" />
+                  
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/models.csv"
+                  separator=";"
+                  tableName="makeandmodel" />
+    </changeSet>
+
+    
+        
+    
+</databaseChangeLog>

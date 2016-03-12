@@ -1,0 +1,52 @@
+<div class="col-md-12 list-group removePaddingWhenSmall">
+	<h2 class="list-group-item active smallerText">Ride details</h2>
+	<div class="list-group-item">
+	<h2></h2>
+			<dl class="dl-horizontal">
+				<dt>Number of seats</dt>
+					<dd>
+						<select ng-model="journey.seatNumber" class="input-sm chat-input"
+							ng-required="true">
+							<option value="" disabled selected>Select One</option>
+							<option value="{{seat}}" ng-repeat="seat in seatsArr">{{seat}}</option>
+						</select>
+					</dd>
+				<dt>Maximum Detour</dt>
+						<dd>
+							<select ng-model="journey.detour" class="input-sm chat-input"
+								ng-click="addUsername();" ng-required="true">
+								<option value="" disabled selected>Select One</option>
+								<option value="{{km}}" ng-repeat="km in detourArr">{{km}}</option>
+							</select>
+						</dd>
+				<dt>Maximum luggage size</dt>
+					<dd>
+						<select ng-model="journey.luggage" class="input-sm chat-input"
+							ng-required="true">
+							<option value="" disabled selected>Select One</option>
+							<option value="{{baggage}}" ng-repeat="baggage in luggageArr">{{baggage}}</option>
+						</select>
+					</dd>
+				<dt>Price per seat <label class='glyphicon glyphicon-euro'></label></dt>
+					<dd>
+						<input id="costData" type="number" name="cost"
+							class="form-control input-sm chat-input" ng-min="0" step="1"
+							max="1000" ng-model="journey.cost" placeholder="0" id="cost"
+							maxLength="6" ng-required="true">
+							<p class="help-block"><label class='glyphicon glyphicon-info-sign'></label> Recommended price </p>
+					</dd>
+				<div ng-show="form.cost.$dirty && form.cost.$invalid">
+		               <p class="help-block" ng-show="form.cost.$error.required" >
+		                   Cost is required.
+		               </p>	               
+		           </div>
+			</dl>				
+		
+	</div>
+</div>		
+<div align="right">
+ 	<button class="btn btn-primary" ui-sref-active="active" ui-sref="addJourney.source" ng-click="removeRoute();"> &larr; Previous</button>
+	<button type="submit" class="btn btn-danger" ng-disabled="form.$invalid" ng-click="display()">Publish</button>
+</div>
+
+

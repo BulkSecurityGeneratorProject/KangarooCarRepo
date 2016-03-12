@@ -1,0 +1,53 @@
+<div class="modal-header list-group-item active">
+    <h3 class="modal-title">Book Journey</h3>
+</div>
+<div class="modal-body">
+    <form  role="form" name="form" ng-show="!success" novalidate show-validation ng-controller="JourneyBidController">
+    	
+    	<div class="alert alert-danger" ng-show="bidExists">
+            <strong>Cannot make this bid!</strong> Your current bid is pending.
+        </div>
+        <div class="alert alert-success" ng-show="bidSaved" >
+                <strong>Bid made!</strong>
+            </div>
+        <div class="form-group">
+			<label>Pickup location</label> <input type="text"
+				class="form-control" name="pickup"
+				placeholder="Enter pickup location" ng-model="pickupLocation"
+				required >
+			<div ng-show="form.pickup.$dirty && form.pickup.$invalid">
+                <p class="help-block"
+                       ng-show="form.pickup.$error.required" >
+                    Pickup location is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Drop off location</label>
+            <input type="text" class="form-control" name="dropoff" placeholder="Enter drop off location" ng-model="dropOffLocation" required>
+            <div ng-show="form.dropoff.$dirty && form.dropoff.$invalid">
+                <p class="help-block"
+                       ng-show="form.dropoff.$error.required" >
+                    Drop off location is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Minimum Bid</label>
+            <input type="number" class="form-control" name="bid"  ng-pattern="/^[0-9]{1,7}(\.[0-9]+)?$/" 
+            			ng-model="bid" min="{{suggestedCost}}" step="1" max="1000"  required>
+            <div ng-show="form.bid.$dirty && form.bid.$invalid">
+                <p class="help-block" ng-show="form.bid.$error.pattern" >
+                	Positive numeric values only.
+                </p>
+                <p class="help-block" ng-show="form.bid.$error.required" >
+                    Bid is required.
+                </p>         
+            </div>
+        </div>
+        <div>
+        	<button class="btn btn-primary" id="submitBid" ng-disabled="form.$invalid" ng-click="addJourneyBid()">Submit</button>
+    		<button class="btn btn-primary" ng-click="cancel()">Close</button>
+        </div>
+	</form>
+</div>

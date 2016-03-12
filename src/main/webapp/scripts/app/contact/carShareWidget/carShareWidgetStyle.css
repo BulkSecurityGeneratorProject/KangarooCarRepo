@@ -1,0 +1,135 @@
+
+#carShareWidget{
+	all: none;
+}
+
+div.carShareWidgetContainer{
+	background-color: #34302d;
+	border: solid 1px #000;
+	border-radius: 5px;
+	max-width: 300px;
+	max-height: 300px;
+	overflow-y:scroll;
+	overflow-x: hidden;
+	font-family: Arial, Helvetica, sans-serif;
+
+}
+
+.carShareWidgetHeading{
+	background-color: #34302d;
+	margin-bottom: 3px;
+	color: #fff;
+}
+h2.carShareWidgetName{
+	margin: 0px;
+	color: #6db33f;
+}
+
+.carShareWidgetTagline{
+	margin: 3px;
+}
+
+.carShareWidgetJourneyHead{
+	background-color: #6db33f;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	color: #fff;
+	padding-left: 3px;
+	padding-right: 3px;
+	margin: 0px 3px 0px 3px;
+	font-size: 85%;
+}
+
+.carShareWidgetJourneyBody{
+	background-color: #fff;
+	border: solid 1px #6db33f;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	margin: 0px 3px 3px 3px;
+	max-height: 58px;
+}
+.carShareWidgetColLeft{
+	width: 60px;
+}
+
+.carShareWidgetColCenter{
+	padding: 0px;
+	padding-left: 10%;
+	width: 300px;
+	position: relative;
+}
+
+
+.carShareWidgetBodyRight{
+	transform: translate(10px,0);
+}
+.carShareWidgetBodyRight:hover{
+	transform: translate(-15px,0);
+}
+
+.carShareWidgetButton{
+	margin: -20px;
+	padding: 0px 30px 0px 7px;
+	
+    background-color: #6db33f;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+}
+a.carShareWidgetJourneyButton{
+	text-decoration: none;
+	color: #fff;
+}
+a:hover.carShareWidgetJourneyButton{
+	color: #000;
+}
+
+.carShareWidgetAmount{
+	position: absolute;
+	top:4px;
+	left:10%;
+}
+
+.carShareWidgetDate{
+	position: absolute;
+	top: 20px;
+	left:10%;
+}
+
+.carShareWidgetProfilePic{
+	border-radius: 5px;
+	max-width: 50px;
+	max-height: 50px;
+	border: solid 2px #fff;
+}
+
+.carShareWidgetProfilePic:hover{
+	border: solid 2px #6db33f;
+}
+
+a.carShareWidgetLinkToJourney, a.carShareWidgetHeadingText{
+	color: #fff;
+	text-decoration: none;
+}
+
+a:hover.carShareWidgetLinkToJourney {
+    text-decoration: underline;
+}
+
+a:hover.carShareWidgetHeadingText{
+	color:#6db33f;
+    text-decoration: underline;
+}
+
+.carShareWidgetContainer::-webkit-scrollbar {
+    width: 3px;
+}
+.carShareWidgetContainer::-webkit-scrollbar-button {
+    background: #34302d
+}
+.carShareWidgetContainer::-webkit-scrollbar-track-piece {
+    background: #fff
+}
+.carShareWidgetContainer::-webkit-scrollbar-thumb {
+    background: #6db33f
+}​
+

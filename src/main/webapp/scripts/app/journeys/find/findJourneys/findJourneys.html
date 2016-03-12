@@ -1,0 +1,93 @@
+<h2 class="pageHeading">Published Journeys</h2><hr>
+<div class="col-sm-12 removePaddingWhenSmall" id="newPage">
+	<div class="col-sm-3 hidden-xs list-group">
+		<div class="list-group-item active">
+			<h4 class="list-group-item-heading">Filter Journeys By:</h4>
+		</div>
+		<div class="list-group-item">
+			<div class="form-group" >
+				<label>Source</label> <input id='source' type="text"
+					class="form-control" placeholder="Enter Source" ng-model="filterBySource">
+			</div>
+			<div class="form-group" >
+				<label>Destination</label> <input id='destination' type="text"
+					placeholder="Enter Destination" class="form-control"
+					ng-model="filterByDestination">
+			</div>
+			<div class="form-group" >
+				<label>UserName</label> <input id='filterBoxUserName' type="text"
+					placeholder="Enter UserName" class="form-control"
+					ng-model="filterByUsername">
+			</div>
+			<div class="form-group" >
+				<label>Date</label> <input id='filterBoxDate' type="date"
+					id="datepicker" class="form-control" ng-model="filterByDate">
+			</div>
+			<ul class="nav nav-tabs">
+				<li id="filterLiBtn"><a id="filterBtn"
+					ui-sref="findJourneys({from: filterBySource, to: filterByDestination, username: filterByUsername, date: filterByDate})"><span
+						class="glyphicon glyphicon-search"></span></a></li>
+				<li id="refreshLiBtn"><a id="refreshBtn"
+					ng-click="clear(); showJourneys(0);"><span
+						class="glyphicon glyphicon-erase"></span></a></li>
+			</ul>
+		</div>		
+	</div>
+	<div class="col-sm-9 removePaddingWhenSmall">
+		<div class="alert alert-danger" ng-show="noJourneys"><b>No results found</b></div>
+		<div id="findJourney" ng-repeat="journey in journeys">
+		<div class="list-group" >
+		   	<a ui-sref="journey({journeyId: journey.id})" class="list-group-item active">
+		      	<i class="list-group-item-heading">
+		         	 <label class="smallerText">{{journey.source}}&#xA0;<span class="xSmallTxt">to</span> &#xA0;{{journey.destination}}</label>  
+		      	</i>
+		   	</a>
+			<div class="list-group-item noPaddingMargin">
+				<div id="rideInfo" class="noMarginBtm">
+					<dl class="dl-horizontal noMarginBtm">
+						<dt>
+							<img id="myLink" ui-sref="profile({username: journey.username})"
+								class="myLink"
+								ng-src='/user/profile/getProfilePicture/{{journey.username}}'
+								alt='picture'>
+						</dt>
+							<dd><h3 class="smallerText marginUsername"><a ui-sref="profile({username: journey.username})">{{journey.username}}</a></h3></dd>
+						<dt>Departure date</dt>
+							<dd>{{journey.date | date}}</dd>
+						<dt>Departure time</dt>
+							<dd>{{journey.time}}</dd>
+					</dl>				
+				</div>	
+		  		<a ui-sref="journey({journeyId: journey.id})" class="iconLink">
+		      		<span id="arrow" class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+		      	</a>
+			    <span id="spanCost">			    	
+			    	<label ng-show="showCost(journey.seatNumber, journey.date);">{{journey.cost | currency:"&euro;"}}</label>
+			    	<label id="full" ng-show="showFull(journey.seatNumber,journey.date)">Full</label>
+			    	<label id="full" ng-show="showClosed(journey.date)">Closed</label>
+			    </span>
+			</div>
+		</div>
+	</div>
+	<pagination 
+		class="smallerText"
+		ng-show="!searching" 
+		ng-model="currentPage"
+		total-items="total"
+		max-size="maxSize"  
+		boundary-links="true"
+		ng-change="pageChanged(currentPage)"></pagination>
+		
+	<pagination
+		class="smallerText"
+		ng-show="searching && !noJourneys" 
+		ng-model="currentPage"
+		total-items="total"
+		max-size="maxSize"  
+		boundary-links="true"
+		ng-change="pageSearchChanged(currentPage)"></pagination>
+	</div>	
+</div>
+
+			
+

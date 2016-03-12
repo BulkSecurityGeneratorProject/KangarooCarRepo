@@ -1,0 +1,36 @@
+<a id="mapBack" ui-sref="journey({journeyId: journey.id})" class="iconLink" >
+	<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>&#xA0;<label>Back to journey</label>
+</a>
+<div>
+	<div ng-switch="hasWawpoints" id="slideIn">
+		<my-map id="map_canvas" ng-style="{height: windowHeight+'px'}"></my-map>
+		<!--<div class="list-group-item mapPadding" ng-switch-when="true">
+			<a class="mapPadding">
+		      	<map zoom="8" center="53.51333, -7.9950156247500026 " draggable="true" ng-style="{height: windowHeight+'px'}">
+		        	<directions 
+		          		draggable="false"
+				        travel-mode="{{Driving}}"		            
+				        origin="{{srcLatLng}}"
+				        destination="{{destLatLng}}"
+				        waypoints="{{waypointsArr}}"
+				        >
+			        </directions>
+		      	</map>
+		   	</a>
+	   	</div>
+	   	<div class="list-group-item mapPadding" ng-switch-when="false" >
+		   	<a class="mapPadding">
+		      	<map zoom="8" center="53.51333, -7.9950156247500026 " draggable="true" ng-style="{height: windowHeight+'px'}">
+		        	<directions 
+		          		draggable="false"
+				        travel-mode="{{Driving}}"		            
+				        origin="{{srcLatLng}}"
+				        destination="{{destLatLng}}"
+				        >
+			        </directions>
+		      	</map>
+		   	</a>
+	   	</div>-->
+	</div>
+	<input type="hidden" id="distanceLabel"></input>
+</div>

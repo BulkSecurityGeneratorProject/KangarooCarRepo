@@ -1,0 +1,124 @@
+<nav class="navbar navbar-default bStyle" role="navigation">
+    <div class="container">
+        <div class="navbar-header" >
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/" style="color:#fff;" translate="global.title">Kangaroo Car</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse" ng-switch="isAuthenticated()">
+            <ul class="nav navbar-nav nav-pills navbar-right">
+                <li ui-sref-active="active" >
+                    <a ui-sref="home" >
+                        <span class="glyphicon glyphicon-home txtColor smallerText"></span>
+                        <span class="txtColor smallerText" translate="global.menu.home">Home</span>
+                    </a>
+                </li>
+                 <li ng-class="{active: $state.includes('journeys')}" class="dropdown pointer">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
+	                    <span>
+	                        <span class="glyphicon glyphicon-road txtColor smallerText"></span>
+	                        <span class="hidden-tablet txtColor smallerText">Journeys</span>
+	                        <b class="caret txtColor"></b>
+	                    </span>
+                    </a>
+                    <ul class="dropdown-menu multi-level smallerText">
+                        <li ui-sref-active="active"><a ui-sref="findJourneys"><span class="glyphicon glyphicon-search"></span>
+                            &#xA0;<span id="dropdownItem">Find Journey</span></a></li>
+                        <li ui-sref-active="active"><a ui-sref="findRequests"><span class="glyphicon glyphicon-search"></span>
+                            &#xA0;<span id="dropdownItem">Find Request</span></a></li>
+                        <li ui-sref-active="active" ng-show="isDriver" ng-switch-when="true" ><a ui-sref="addJourney.source"><span class="glyphicon glyphicon-plus"></span>
+                            &#xA0;<span id="dropdownItem">Add Journey</span></a></li>
+                        <li ui-sref-active="active" ng-switch-when="true"><a ui-sref="addJourneyRequest.source"><span class="glyphicon glyphicon-plus"></span>
+                            &#xA0;<span id="dropdownItem">Add Request</span></a></li>
+
+                    </ul>
+                </li>
+                
+                <li ui-sref-active="active" ng-switch-when="true" >
+                	<a ui-sref="profile({username: userName})">
+                        <span class="glyphicon glyphicon-user txtColor smallerText"></span>
+                        <span class="txtColor smallerText">{{userName}}</span>
+                    </a>
+                </li>
+                <li id="notification_li" ng-show="isAuthenticated()" >
+					<a href="#" id="notificationLink" ng-click="markAsSeen()">
+						<div id="noti_Container">
+						    <span class="glyphicon glyphicon-globe txtColor"></span>
+						    <div class="noti_bubble" ng-show="notificationsCount>0">{{notificationsCount}} </div>
+						</div>
+					</a>
+					<div id="notificationContainer">
+						<div id="notificationTitle">Notifications</div>
+						<div id="notificationsBody" class="notifications">
+							<div ng-repeat="notification in newNotifications">
+								<div class="singleNotificationBody" ng-click="linkTo(notification.link)">
+									<div class="notificationMainLine">
+										<a ui-sref="profile({username: notification.senderName})"><img ng-src="user/profile/getProfilePicture/{{notification.senderName}}"  class='notificationPic'> {{notification.senderName}}</a>
+										<b>{{notification.message}}</b>
+									</div>
+									<div align="right">
+										<time class="timeForNotifications" am-time-ago="notification.date" title="{{ notification.date | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}"></time>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="notificationFooter"><a ui-sref="notifications">See All</a></div>
+					</div>
+				</li>
+                <li ng-class="{active: $state.includes('account')}" class="dropdown pointer">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
+	                    <span>
+	                        <span class="glyphicon glyphicon-cog txtColor smallerText"></span>
+	                        <span class="hidden-tablet txtColor smallerText" translate="global.menu.account.main">
+	                            Account
+	                        </span>
+	                        <b class="caret txtColor"></b>
+	                    </span>
+                    </a>
+                    <ul class="dropdown-menu smallerText">
+                        <li ui-sref-active="active" ng-switch-when="true"><a ui-sref="settings"><span class="glyphicon glyphicon-wrench"></span>
+                            &#xA0;<span translate="global.menu.account.settings" id="dropdownItem">Settings</span></a></li>
+                        <!--<li ui-sref-active="active" ng-switch-when="true"><a ui-sref="sessions"><span class="glyphicon glyphicon-cloud"></span>
+                            &#xA0;<span translate="global.menu.account.sessions">Sessions</span></a></li>-->
+                        <li ui-sref-active="active" ng-switch-when="true"><a href="" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span>
+                            &#xA0;<span translate="global.menu.account.logout" id="dropdownItem">Log out</span></a></li>
+                        <li ui-sref-active="active" ng-switch-when="false"><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span>
+                            &#xA0;<span id="dropdownItem">Login</span></a></li>
+                        <li ui-sref-active="active" ng-switch-when="false">
+                        	<a ui-sref="register"><span class="glyphicon glyphicon-plus-sign"></span>&#xA0;
+                        		<span translate="global.menu.account.register" id="dropdownItem">Register</span>
+                        	</a>
+                        </li>
+                    </ul>
+                </li>
+                <li ng-class="{active: $state.includes('admin')}"  ng-switch-when="true" has-role="ROLE_ADMIN" class="dropdown pointer">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
+                        <span>
+                            <span class="glyphicon glyphicon-tower"></span>
+                            <span class="hidden-tablet" translate="global.menu.admin.main">Admin</span>
+                            <b class="caret"></b>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li ui-sref-active="active"><a ui-sref="metrics"><span class="glyphicon glyphicon-dashboard"></span>
+                            &#xA0;<span translate="global.menu.admin.metrics">Metrics</span></a></li>
+                        <li ui-sref-active="active"><a ui-sref="health"><span class="glyphicon glyphicon-heart"></span>
+                            &#xA0;<span translate="global.menu.admin.health">Health</span></a></li>
+                        <li ui-sref-active="active"><a ui-sref="configuration"><span class="glyphicon glyphicon-list-alt"></span>
+                            &#xA0;<span translate="global.menu.admin.configuration">Configuration</span></a></li>
+                        <li ui-sref-active="active"><a ui-sref="audits"><span class="glyphicon glyphicon-bell"></span>
+                            &#xA0;<span translate="global.menu.admin.audits">Audits</span></a></li>
+                        <li ui-sref-active="active"><a ui-sref="logs"><span class="glyphicon glyphicon-tasks"></span>
+                            &#xA0;<span translate="global.menu.admin.logs">Logs</span></a></li>
+                        <li ui-sref-active="active"><a ui-sref="docs"><span class="glyphicon glyphicon-book"></span>
+                            &#xA0;<span translate="global.menu.admin.apidocs">API Docs</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

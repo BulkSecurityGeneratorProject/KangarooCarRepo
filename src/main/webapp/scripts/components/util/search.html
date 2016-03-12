@@ -1,0 +1,31 @@
+<div class="container" id="filter" >	
+	<div class="col-sm-6 collapse" id="demo1">				
+		<div class="col-md-6">
+			<input id='source' type="text" class="form-control" placeholder="Source" ng-model="filterBySource">
+		</div>		
+		<div class="col-md-6">
+			<input id='destination' type="text" placeholder="Destination" class="form-control" ng-model="filterByDestination">
+		</div>
+	</div>
+</div>
+<br />
+<div class="container" id="filter">
+	<div class="col-sm-6 collapse" id="demo2">
+		<div class="col-md-6">
+			<input id='filterBoxUserName' type="text" placeholder="UserName" class="form-control" ng-model="filterByUsername">
+		</div>
+		<div class="col-md-6">
+			<input id='filterBoxDate' type="date" id="datepicker" class="form-control" ng-model="filterByDate">
+		</div> 
+	</div>		
+</div>
+<ul class="nav nav-tabs">	
+	<li id='filterLi'>
+		<a data-toggle='collapse' data-target='#demo1, #demo2, #filterLiBtn, #refreshLiBtn' ng-click="toggle();"
+			onClick ='this.style.visibility= hidden;'>
+		<span  class="glyphicon glyphicon-filter"></span>Filter By</a>
+	</li>
+	<li id="filterLiBtn" class="collapse"><a id="filterBtn" ng-click="search(); searching = true"><span class="glyphicon glyphicon-search"></span></a></li>
+	<li id="refreshLiBtn" class="collapse"><a id="refreshBtn" ng-click="clear();"><span class="glyphicon glyphicon-erase"></span></a></li>								
+</ul>
+		 

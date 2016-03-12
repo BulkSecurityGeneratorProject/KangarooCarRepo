@@ -1,0 +1,35 @@
+<div class="modal-header list-group-item active">
+    <h3 class="modal-title">Review for {{them}}</h3>
+</div>
+<div class="modal-body">
+    <form  role="form" name="form" ng-show="!success" novalidate show-validation>
+        <div class="form-group">
+            <textarea id="txtArea" rows="7" type="text" class="form-control" name="message" 
+            		placeholder="Enter review" ng-model="review" ng-minlength=4 ng-maxlength=400 required></textarea>
+        	<div ng-show="form.message.$dirty && form.message.$invalid">
+                <p class="help-block"
+                       ng-show="form.message.$error.required" >
+                    Review can not be empty
+                </p>
+                <p class="help-block"
+                       ng-show="form.message.$error.minlength" >
+                    Your review is too short
+                </p>
+                <p class="help-block"
+                       ng-show="form.message.$error.maxlength" >
+                    Your review is too long. The max is 400 characters.
+                </p>
+            </div>
+        </div>
+        <div align="left" class="txtSizeLrgStar">
+            <rating ng-model="reviewValue" max="10" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" required></rating>
+			<span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}" 
+					ng-show="overStar && !isReadonly">{{percent}}%
+			</span>
+    	</div>
+        <div>
+        	<button class="btn btn-primary" ng-disabled="form.$invalid" ng-click="sendReview(); cancel()">Submit</button>
+    		<button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+        </div>
+	</form>
+</div>

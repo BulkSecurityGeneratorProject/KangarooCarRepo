@@ -1,0 +1,189 @@
+<!doctype html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Kangaroo Car</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <!-- build:css assets/styles/vendor.css -->
+        <!-- bower:css -->
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+        <!-- endbower -->
+        <!-- endbuild -->
+        <!-- FB dev id 928470580532053 -->
+        <!-- build:css assets/styles/main.css -->
+        <!--<link rel="stylesheet" href="assets/styles/main.css">-->
+        <link rel="stylesheet" href="assets/styles/main.min.css">
+        <link rel="stylesheet" href="assets/styles/animate.css">
+        
+        <audio id="sound">
+        	<source src="assets/audio/car-beep.mp3">
+        </audio>
+        <link rel="stylesheet" href="scripts/app/notifications/angular-ui-notification.min.css">
+        
+        <!-- endbuild -->
+        <!-- for Widget -->
+        <link rel="stylesheet" type="text/css" href="scripts/app/contact/carShareWidget/carShareWidgetStyle.css">
+       
+    </head>
+    <body ng-app="carshareApp" class="indexBody">     
+        <div ui-view="navbar" ng-cloak=""></div>
+        <div class="container body-content hide" id="page" ng-class="{'show': loaded}" ng-init="loaded=true">
+            <div class="col-lg-12" id="main" ui-view="content"></div>
+        </div>
+		<div ng-cloak="" class="footer">
+			<div class="container">
+				<div class="fb-like floatRight" data-share="true" data-width="225" data-show-faces="true" data-colorscheme="dark"></div>
+				<p class="copy"><br />KangarooCar, 2015 &copy;</p>
+				<div><a href ui-sref="contact" class="contactUs">Contact us</a></div>
+				<div>
+					<a href=""><img title="Twitter" src="assets/images/twitter.png" alt="Twitter" width="35" height="35" /></a> 
+					<a href=""><img title="Facebook" src="assets/images/facebook.png" alt="Facebook" width="35" height="35" /></a> 
+					<a href="mailto:carshareireland@gmail.com"><img title="Email" src="assets/images/email.png" alt="Email" width="35" height="35" /></a>
+					<a href=""><img title="RSS" src="assets/images/rss.png" alt="RSS" width="35" height="35" /></a>
+				</div>
+				<br />
+			</div>
+        </div>
+        <!-- build:js scripts/vendor.js -->
+        <!-- bower:js -->
+        <script src="bower_components/modernizr/modernizr.js"></script>
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="bower_components/json3/lib/json3.min.js"></script>        
+        <script src="bower_components/angular/angular.min.js"></script>
+        <!--<script src="bower_components/angular/angular-animate.min.js"></script>-->
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+        <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
+        <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+      	<script src="bower_components/angular-translate/angular-translate.min.js"></script>
+        <script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js"></script>
+        <script src="bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min.js"></script>
+        <script src="bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js"></script>
+        <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+        <script src="bower_components/angular-cache-buster/angular-cache-buster.js"></script>
+        <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+
+        <script src="bower_components/lodash/dist/lodash.compat.min.js"></script>
+        <!--<script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>-->      
+        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false&callback"></script>        
+
+        <!-- Map and directions 
+        <script src="bower_components/ngmap/build/scripts/ng-map.min.js"></script>
+        <script src="bower_components/ngmap/app/scripts/app.js"></script>
+	    <script src="bower_components/ngmap/app/scripts/services/navigator_geolocation.js"></script>
+	    <script src="bower_components/ngmap/app/scripts/services/geo_coder.js"></script>
+	    <script src="bower_components/ngmap/app/scripts/services/attr2_options.js"></script>
+	    <script src="bower_components/ngmap/app/scripts/directives/map_controller.js"></script>
+	    <script src="bower_components/ngmap/app/scripts/directives/map.js"></script>
+	        	
+     	<script src="bower_components/ngmap/app/scripts/directives/marker.js"></script>
+     	<script src="scripts/components/util/directions.js"></script>-->
+     	
+     	
+        <script src="bower_components/time/moment.min.js"></script>
+        <script src="bower_components/time/angular-moment.min.js"></script>        
+        <script src="bower_components/facebook/facebook.js"></script>
+        <script src="bower_components/websocket/sockjs-0.3.4.min.js"></script>
+        <script src="bower_components/websocket/stomp.min.js"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+        <!-- build:js({.tmp,src/main/webapp}) scripts/app.js -->
+        <script src="scripts/app/app.js"></script>
+        <script src="scripts/app/app.constants.js"></script>
+        <script src="scripts/components/auth/auth.service.js"></script>
+        <script src="scripts/components/auth/principal.service.js"></script>
+        <script src="scripts/components/auth/authority.directive.js"></script>
+        <script src="scripts/components/auth/services/account.service.js"></script>
+        <script src="scripts/components/auth/services/activate.service.js"></script>
+        <script src="scripts/components/auth/services/password.service.js"></script>
+        <script src="scripts/components/auth/services/register.service.js"></script>
+        <script src="scripts/components/form/form.directive.js"></script>
+        <script src="scripts/components/form/pager.directive.js"></script>
+        <script src="scripts/components/form/pagination.directive.js"></script>
+        <script src="scripts/components/language/language.service.js"></script>
+        <script src="scripts/components/language/language.controller.js"></script>
+        <script src="scripts/components/admin/audits.service.js"></script>
+        <script src="scripts/components/admin/logs.service.js"></script>
+        <script src="scripts/components/admin/configuration.service.js"></script>
+        <script src="scripts/components/admin/monitoring.service.js"></script>     
+        <script src="scripts/components/navbar/navbar.directive.js"></script>
+        <script src="scripts/components/navbar/navbar.controller.js"></script>
+        <script src="scripts/components/user/user.service.js"></script>
+        <script src="scripts/components/util/truncate.filter.js"></script>
+        <script src="scripts/components/util/base64.service.js"></script>
+        <script src="scripts/components/util/parse-links.service.js"></script>
+        <script src="scripts/app/account/account.js"></script>
+        <script src="scripts/app/contact/contact.js"></script>
+        <script src="scripts/app/contact/contact.controller.js"></script>        
+        <script src="scripts/app/account/activate/activate.js"></script>
+        <script src="scripts/app/account/activate/activate.controller.js"></script>
+        <script src="scripts/app/journeys/find/findJourneys/findJourneys.js"></script>
+        <script src="scripts/app/journeys/find/findJourneys/findJourneys.controller.js"></script>
+        <script src="scripts/app/journeys/find/findRequests/findRequests.js"></script>
+        <script src="scripts/app/journeys/find/findRequests/findRequests.controller.js"></script>
+        <script src="scripts/app/journeys/journey/journey.js"></script>
+        <script src="scripts/app/journeys/journey/journeyMap.js"></script>
+        <script src="scripts/app/journeys/journey/journey.controller.js"></script>
+        <script src="scripts/app/journeys/journeyRequest/request.js"></script>
+        <script src="scripts/app/journeys/journeyRequest/request.controller.js"></script>
+        <script src="scripts/app/journeys/popup/popup.js"></script>
+        <script src="scripts/app/journeys/popup/reviewPopup.js"></script>
+        <script src="scripts/app/journeys/journeyBid/journeyBid.controller.js"></script>
+        <script src="scripts/app/journeys/contactPassenger/contactPassenger.controller.js"></script>
+        <script src="scripts/app/account/login/login.js"></script>
+        <script src="scripts/app/account/login/login.controller.js"></script>
+        <script src="scripts/app/account/logout/logout.js"></script>
+        <script src="scripts/app/account/logout/logout.controller.js"></script>
+        <script src="scripts/app/account/password/password.js"></script>
+        <script src="scripts/app/account/password/password.controller.js"></script>
+        <script src="scripts/app/account/password/password.directive.js"></script>
+        <script src="scripts/app/account/register/register.js"></script>
+        <script src="scripts/app/account/register/register.controller.js"></script>
+        <script src="scripts/app/account/settings/settings.js"></script>
+        <script src="scripts/app/account/settings/settings.controller.js"></script>
+        <script src="scripts/app/admin/admin.js"></script>
+        <script src="scripts/app/admin/audits/audits.js"></script>
+        <script src="scripts/app/admin/audits/audits.controller.js"></script>
+        <script src="scripts/app/admin/configuration/configuration.js"></script>
+        <script src="scripts/app/admin/configuration/configuration.controller.js"></script>
+        <script src="scripts/app/admin/docs/docs.js"></script>
+        <script src="scripts/app/admin/health/health.js"></script>
+        <script src="scripts/app/admin/health/health.controller.js"></script>
+        <script src="scripts/app/admin/logs/logs.js"></script>
+        <script src="scripts/app/admin/logs/logs.controller.js"></script>
+        <script src="scripts/app/admin/metrics/metrics.js"></script>
+        <script src="scripts/app/admin/metrics/metrics.controller.js"></script>
+        <script src="scripts/app/entities/entity.js"></script>
+        <script src="scripts/app/error/error.js"></script>
+        <script src="scripts/app/main/main.js"></script>
+        <script src="scripts/app/main/main.controller.js"></script>
+        <script src="scripts/app/notifications/notifications.js"></script>
+        <script src="scripts/app/notifications/notifications.controller.js"></script>
+        <script src="scripts/components/auth/services/sessions.service.js"></script>
+        <script src="scripts/components/auth/provider/auth.session.service.js"></script>
+        <script src="scripts/app/account/sessions/sessions.js"></script>
+        <script src="scripts/app/account/sessions/sessions.controller.js"></script>
+        <script src="scripts/app/profile/profile.js"></script>
+        <script src="scripts/app/profile/profile.controller.js"></script>
+        <script src="scripts/app/journeys/manageBids/manageBids.js"></script>
+        <script src="scripts/app/journeys/manageBids/manageBids.controller.js"></script>        
+        <script src="scripts/app/journeys/viewContact/viewContact.js"></script>
+        <script src="scripts/app/journeys/viewContact/viewContact.controller.js"></script>       		
+        <script src="scripts/components/util/directives.js"></script>
+        <script src="scripts/app/journeys/addJourney/addJourney.js"></script>
+        <script src="scripts/app/journeys/addJourney/addJourney.controller.js"></script>  
+        <script src="scripts/app/journeys/addJourneyRequest/addJourneyRequest.js"></script>
+        <script src="scripts/app/journeys/addJourneyRequest/addJourneyRequest.controller.js"></script>        
+        <script src="scripts/components/util/ngAutocomplete.js"></script>
+        <script src="bower_components/bootstrap/dist/js/ui-bootstrap-tpls-0.13.0.js"></script>        
+        <script src="scripts/app/notifications/angular-ui-notification.min.js"></script>
+        
+        <!-- endbuild -->  
+        
+			   
+</body>
+</html>

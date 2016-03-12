@@ -1,0 +1,258 @@
+<h2 class="pageHeading">Selected journey</h2><hr>
+<a id="bts" ui-sref="findJourneys"><span class="glyphicon glyphicon-arrow-left iconLink"></span>&#xA0;<b class="smallerText">Back to search results</b></a>
+<div id="slideIn" class="mapPadding">
+	<div class="list-group" ng-switch="showMap" >
+		<div id="journeyTitle" class="list-group-item active">
+			<label class="smallerText">{{journey.source}}&#xA0;<span class="xSmallTxt">to</span> {{journey.destination}}</label>
+		</div>		
+		<div class="list-group-item removePaddingWhenSmall" id="infront">		
+			<div class="tbodyBorder">
+				<h2 align="center" class="smallerText removeMargin">Schedule and ride group</h2>
+				<p align="center" class="smallerText removeMargin">Distance: <label id="distanceLabel">{{calculatedDistance}} KM </label>&#xA0;  - Estimated duration: {{duration}}</p>
+				<table id="journeyTable" class="table table-bordered journeyTable">
+					<thead >
+						<tr class="visible-xs">
+							<th colspan="10">
+								<span>Departing {{journey.source}} At {{journey.time}} On {{date | date}}</span><br />
+								<span>{{journey.destination}} ETA {{arrivalTime}}</span><br />
+								<span><img src="../../../../assets/images/Car-50.png" class="mySeats" />&#xA0;{{car}}</span>
+							</th>
+						</tr>
+						<tr>
+							<th class="hidden-xs"><span class="hidden-xs"><span>Departing
+										{{journey.source}}</span><br> <span>At {{journey.time}}</span><br>
+								<span>On {{date | date}}</span> </span></th>
+							<th class="alignCenter hidden-xs">
+								<img src="../../../../assets/images/Car-50.png" class="mySeats" />
+							</th>
+							<th class="alignCenter"><img src="../../../../assets/images/Driver-50.png"
+								class="mySeats" /></th>
+							<th ng-repeat="passenger in passengers"  class="alignCenter"><img
+								src="../../../../assets/images/Passenger-50.png" class="mySeats" />
+							</th>
+							<th ng-switch="isAuthenticated()" ng-repeat="i in getNumber(journey.seatNumber) track by $index"ng-controller="ModalDemoCtrl"  class="alignCenter">
+								<img src="../../../../assets/images/Passenger-Green.png" class="mySeats" />
+							</th>
+						</tr>						
+					</thead>
+					<tbody >
+						<tr>
+							<th class="hidden-xs">
+								<div class="hidden-xs">
+									<span>{{journey.destination}}</span><br />
+									<span>ETA {{arrivalTime}}</span>
+								</div>
+							</th>
+							<td class="alignCenter hidden-xs">
+								<label class="smallerText">{{car}}&#xA0;</label>
+							</td>
+							<td class="alignCenter"><a class="smallerText" 
+								ui-sref="profile({username: journey.username})">{{journey.username}}&#xA0;</a><br>
+								<a ui-sref="profile({username: journey.username})">
+								<img alt="{{journey.username}}" ng-src='/user/profile/getProfilePicture/{{journey.username}}' width="36" height="36" style="width: 36px; height: 36px"></a>
+								<div ng-show="canReviewDriver() && notMyJourney && amPassenger"><span ng-controller="ReviewPopupController"><a href ng-click="open(journey.username, journey.id)">review</a></span></div>
+							</td>
+							<th ng-repeat="passenger in passengers" class="alignCenter">
+								<a ui-sref="profile({username: passenger.userName})">{{passenger.userName}}&#xA0;</a><br>
+								<a ui-sref="profile({username: passenger.userName})">
+									<img alt="{{passenger.userName}}" ng-src='/user/profile/getProfilePicture/{{passenger.userName}}' width="36" height="36" style="width: 36px; height: 36px">
+									</a>
+								<div ng-show="!passenger.hasBeenReviewed && !notOnJourney"><span ng-controller="ReviewPopupController"><a href ng-click="open(passenger.userName, journey.id)">review</a></span></div>
+							</th>
+							<th class="alignCenter" ng-switch="isAuthenticated()" ng-repeat="i in getNumber(journey.seatNumber) track by $index" ng-controller="ModalDemoCtrl">
+								<a ng-show="notMyJourney && !datePassed" ng-switch-when="true" id="myLink" ng-click="open('bookJourney.html')">
+									<b class="smallerText">bid</b>&#xA0;
+								</a> 
+								<a ng-show="notMyJourney && !datePassed" ng-switch-when="false" id="myLink" ui-sref="login">
+									<b class="smallerText">bid</b>&#xA0;
+								</a>
+								<a ng-show="!notMyJourney && !datePassed" id="myLink" title="Cannot bid on own journey." class="smallerText">free&#xA0;</a>
+							</th>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div id="rideInfo" class="backGroundColorRideDetails tbodyBorder" >
+				<h2 align="center" class="removeMargin">Ride details <label id="full" class=" ">{{label}}</label></h2>
+				<div class="rideInfoInner">
+					<dl class="row dl-horizontal">
+						<div class="col-sm-1"></div>
+						<div class="col-sm-5">
+							<dt>Detour</dt>
+								<dd>Max. {{journey.detour}}. detour</dd>
+							<dt>Schedule flexibility</dt>
+								<dd>Departure will be on time</dd>
+							<dt>Luggage size</dt>
+								<dd>{{journey.luggage}} (travel bag)</dd>
+						</div>
+						<div class="col-sm-1"></div>
+						<div class="col-sm-5">
+							<dt>Remaining seats</dt>
+								<dd>{{journey.seatNumber}}</dd>
+							<dt>Suggested Cost</dt>
+								<dd id="costPosition" class="smallerText txtSizeLrg">{{journey.cost | currency:"&euro;"}}</dd>
+						</div>
+					</dl>
+				</div>
+				
+				<div>
+					<h4 class="colorWhite" ng-show="waypointNamesArr.length">Waypoints</h4>
+					<span ng-repeat="waypointName in waypointNamesArr track by $index">
+						<span class="pin b"><p class="letter"><b>{{getLetter($index)}}</b></p></span>
+						 <span class="colorWhite">{{waypointName}}</span>
+						 <span ng-show="windowWidth< 380"><br /></span>
+					</span>
+				</div>		
+			</div>
+			<div ng-switch="hasWawpoints" class="marginNeg">
+				<my-map id="map_canvas"></my-map>
+		   	</div>
+		   	<a href ui-sref="journeyMap">full screen</a>
+		</div>
+	</div>
+	<div id="marginTop" ng-switch="isAuthenticated()" class="list-group row">
+		<div class="col-sm-1"></div>
+	<div class="col-sm-10 mapPadding">
+		<div class="list-group-item active">
+			<h4 class="smallerText">Comment</h4>
+		</div>
+		<div class="list-group-item " id="commentDiv">
+			<div id="commentOuter">
+				<img  class="commentPic" ng-switch-when="true" id="profilePic commentImg" class="BorderStyle"
+								ng-src='/user/profile/getProfilePicture/{{account.login}}' alt='profile pic'  />
+				<img class="commentPic" ng-switch-when="false" id="profilePic commentImg" class="BorderStyle"
+						src='../../../assets/images/default.jpg' alt='profile pic'  />				
+				<div>
+					<form id="commentTextArea" align="right"  role="form" name="form" ng-show="!success" novalidate show-validation>
+				        <div class="form-group">
+				            <textarea rows="5" type="text" style="resize: none;" class="form-control" name="message" placeholder="Add comment"
+				            	ng-model="comment" ng-minlength=1 ng-maxlength=400 required></textarea>
+				        	<div ng-show="form.message.$dirty && form.message.$invalid">
+				                <p class="help-block"
+				                       ng-show="form.message.$error.required" >
+				                    Comment can not be empty
+				                </p>
+				                <p class="help-block"
+				                       ng-show="form.message.$error.minlength" >
+				                    Your comment is too short
+				                </p>
+				                <p class="help-block"
+				                       ng-show="form.message.$error.maxlength" >
+				                    Your comment is too long. The max is 400 characters.
+				                </p>
+				            </div>
+				        </div>
+				        <div align="left" class="alert alert-danger" ng-show="commentError">
+				            <strong>An error occured while posting your comment</strong>
+				        </div>
+				        <div>
+				        	<button ng-switch-when="true" class="btn btn-primary" ng-disabled="form.$invalid" 
+				        		ng-click="postComment()">Post <span class="glyphicon glyphicon-comment"></span></button>
+				        	<button ng-switch-when="false" class="btn btn-primary" ng-disabled="form.$invalid" 
+				        		ui-sref="login">Post <span class="glyphicon glyphicon-comment"></span></button>
+				        </div>
+					</form>
+				</div>
+			</div>					
+		</div>
+		<br />
+		<div >
+			<div align="right">
+				<button ng-show="!showComments"  class="btn btn-primary" ng-click="toggleComments()">View Comments</button>
+			</div>
+			<div ng-show="showComments" ng-repeat="comment in comments">
+					<div class="list-group-item" id="commentDiv">
+						<div class="row">
+							<div class="margins" ng-init="comment.showme = false">
+								<img class="commentPic BorderStyle" id="myLink"
+									ui-sref="profile({username: comment.senderUserName})"
+									ng-src='/user/profile/getProfilePicture/{{comment.senderUserName}}'
+									alt='profile pic' /> <a id="commentLink"
+									ui-sref="profile({username: comment.senderUserName})"><b>{{comment.senderUserName}}</b></a>
+								<time class="timeForComment" am-time-ago="comment.date"
+									title="{{ comment.date | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}"></time>
+								<p>{{comment.message}}</p>
+								<a href ng-click="comment.showme = !comment.showme">reply</a>
+							</div>
+						</div>
+						<br />
+						<div align="right" ng-show="comment.showme">
+							<form align="right" role="form" name="formReply"
+								ng-show="!success" novalidate show-validation>
+								<div
+									ng-show="formReply.replyMessage.$dirty && formReply.replyMessage.$invalid">
+									<p class="help-block"
+										ng-show="formReply.replyMessage.$error.required">Reply
+										can not be empty</p>
+									<p class="help-block"
+										ng-show="formReply.replyMessage.$error.minlength">Your
+										reply is too short</p>
+									<p class="help-block"
+										ng-show="formReply.replyMessage.$error.maxlength">Your
+										reply is too long. The max is 400 characters.</p>
+								</div>
+								<textarea id="commentBox" rows="3" type="text"
+									style="resize: none;" class="form-control" name="replyMessage"
+									placeholder="Add reply" ng-model="comment.replyMessage"
+									ng-minlength=1 ng-maxlength=400 required></textarea>
+								<div ng-switch="isAuthenticated()">
+									<button ng-switch-when="true" class="btn btn-primary"
+										ng-disabled="formReply.$invalid"
+										ng-click="sendReply(comment.id, comment)">
+										<span class="glyphicon glyphicon-share-alt"></span>
+									</button>
+									<button ng-switch-when="false" class="btn btn-primary"
+										ng-disabled="formReply.$invalid" ui-sref="login">
+										<span class="glyphicon glyphicon-share-alt"></span>
+									</button>
+									<button class="btn btn-primary" ng-show="!comment.replies"
+										ng-init="getReplies(comment.id)">Show Replies</button>
+								</div>
+							</form>
+						</div>
+						<br />
+						<div class="row">
+							<div ng-show="comment.replies.content.length==0" align="center">
+								<h3></h3>
+							</div>
+							<div class="margins">
+								<div ng-repeat="reply in comment.replies.content">
+									<div class="margins">
+										<img id="myLink" class="commentPic BorderStyle"
+											ui-sref="profile({username: reply.senderUserName})"
+											ng-src='/user/profile/getProfilePicture/{{reply.senderUserName}}'
+											alt='profile pic' /> <a id="commentLink"
+											style="text-decoration: none;"
+											ui-sref="profile({username: reply.senderUserName})"> <b>{{reply.senderUserName}}</b></a>
+										<time class="timeForComment txtSize" am-time-ago="reply.date"
+											title="{{ reply.date|amDateFormat:'dddd, MMMM Do YYYY, h:mm a' }}"></time>
+										<p>{{reply.message}}</p>
+										<hr />
+									</div>
+								</div>
+								<div ng-show="!comment.replies.last && comment.replies"
+									align="center">
+									<a href
+										ng-click="showMorereplies((comment.replies.number + 1), comment.id)">more
+										replies</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<br />
+			</div>
+			<div align="center" ng-show="more">
+				<a href ng-click="showMoreComments()">more</a>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<button ng-show="false" id="hiddenButton" ng-click="calculatedDistance=calculatedDistance">test</button>
+<!--<map ng-show="false">
+	<directions         
+        origin="x"
+        destination="y"
+        >
+    </directions>
+</map>-->

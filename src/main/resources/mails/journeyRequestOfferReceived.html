@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title th:text="#{email.activation.title}">CarShare activation</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+    	<div class="kangarooBody" style="background-color:#F3FCE6;">
+    		<div align="center" style="background-color:#6db33f; color:#fff; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+    			<h2 class="kangarooBody" style="margin-top:0px; margin-bottom:0px; padding:10px;" th:text="#{email.all.appname}">KangarooCar</h2>
+    		</div>
+    		<div class="kangarooBody" style="background-color:#F3FCE6; padding:10px;">
+		        <p th:text="#{email.activation.greeting(${user.login})}">
+		            Dear
+		        </p>
+		        <p th:text="#{email.offer.text1(${sender.login})}">
+		            user has made an offer on one of your journey requests.
+		        </p>
+		        <p>
+		            <a th:href="@{|http://carshare.fexcosoftware.com/#/|}" >Login to CarShare</a>
+		        </p>
+		        <p>
+		            <a th:href="@{|http://carshare.fexcosoftware.com/#/profile/${sender.login}|}" >View senders profile</a>
+		        </p>
+		        <p>
+		            <span th:text="#{email.activation.text2}">Regards, </span>
+		            <br/>
+		            <em th:text="#{email.signature}">CarShare.</em>
+		        </p>
+			</div>
+        </div>
+    </body>
+</html>

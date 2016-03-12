@@ -1,0 +1,130 @@
+<div ng-cloak id="newPage">	
+	<div class="row" >	
+		<div class="col-lg-12 mapPadding" >
+			<img src="../../../assets/images/homeImg.png" id="homeImg" />
+			<a ng-show="!isAuthenticated()" class="imgTagKC" ui-sref="register"></a>
+			<a ng-show="!isAuthenticated()" class="imgTagLogin" ui-sref="login"></a>
+			
+			<div id="homeForm" class="row mapPadding" >
+				<form>
+					<div id="homeForm" class="row">
+						<div class="col-sm-11 col-sm-offset-1" id="homeInput">
+							<h3><label class="navBarColor">Find a journey</label></h3>
+						</div>
+					</div>
+					<div class="col-sm-4 col-sm-offset-1 form-group" id="homeInput">
+						<input type="text"
+							class="form-control ng-pristine ng-valid ng-touched" name="from"
+							ng-autocomplete ng-model="from" placeholder="From">
+					</div>
+					<div class="col-sm-4 form-group" id="homeInput">
+						<input type="text"
+							class="form-control ng-pristine ng-valid ng-touched" name="to"
+							ng-autocomplete ng-model="to" placeholder="To">
+					</div>
+					<div class="col-sm-2 form-group" id="homeInput">
+						<button class="btn btn-primary" ng-click="goToResults()">Find</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-12">
+		<div class="row">
+			<div id="radiusBottom" class="row list-group" align="center">
+				<div class="col-sm-4 step1" >
+					<!--<img id="roundImg" class="img-circle img-responsive img-center" src="../../../assets/images/Register.png" alt="" >-->
+					<h2 id="roundImgHeading">Step 1</h2>
+						<h2 align="center" class="list-group-item active" id="steps">Register</h2>
+						<p id="stepsInner" class="list-group-item active">
+							<a ui-sref="register">Sign up</a> to Carshare. It takes less than
+							a minute. No personal details are required and no credit card is
+							needed as we don't take a penny from you. All you need is an
+							email address.
+						</p>
+				</div>
+				<div class="col-sm-4 step2">
+					<!--<img id="roundImg" class="img-circle img-responsive img-center" src="../../../assets/images/roundImg3.gif" alt="">-->
+					<h2 id="roundImgHeading">Step 2</h2>	
+						<h2 align="center" class="list-group-item active" id="steps">Find</h2>
+						<p id="stepsInner" class="list-group-item active">
+							If you are a driver you can advertise your <b>journey</b> and
+							passengers will bid for a seat. Alternatively, if you don't
+							drive or you just don't feel like driving you can advertise a <b>journey
+								request</b> and let the drivers contact you.
+						</p>
+				</div>
+				<div class="col-sm-4 step3">
+					<!--<img id="roundImg" class="img-circle img-responsive img-center" src="../../../assets/images/roundImg2.png" alt="">-->
+					<h2 id="roundImgHeading">Step 3</h2>
+						<h2 align="center" class="list-group-item active" id="steps">Share</h2>
+						<p id="stepsInner" class="list-group-item active">Meet up at
+							the agreed location and time, pay the driver the amount you bid
+							and share the journey. After you reach your destination feel
+							free to review any other person on the journey.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-8 list-group">
+			<h2 class="list-group-item active">Recently Added</h2>
+			<carousel interval="myInterval" class="list-group-item mapPadding"> 
+				<slide ng-repeat="journey in journeys">
+				<div class="list-group-item slides">
+					<a ui-sref="journey({journeyId: journey.id})"> <label
+						class="list-group-item-heading"> <b class="smallerText">{{journey.source}}</b>
+							<span class="smallerText glyphicon glyphicon-arrow-right"></span>
+							<b class="smallerText">{{journey.destination}}</b>
+					</label>
+					</a>
+					<div>
+						<table>
+							<tr>
+								<td><label><img id="myLink"
+										ui-sref="profile({username: journey.username})" class="myLink"
+										ng-src='/user/profile/getProfilePicture/{{journey.username}}'
+										alt='picture'>
+								</label>&#xA0;&#xA0;</td>
+								<td><h3 class="smallerText">
+										<a ui-sref="profile({username: journey.username})">{{journey.username}}</a>
+									</h3></td>
+							</tr>
+							<tr>
+								<td><label>Date:</label></td>
+								<td>{{journey.date | date}}</td>
+							</tr>
+							<tr>
+								<td><label>Time:</label></td>
+								<td>{{journey.time}}</td>
+							</tr>
+						</table>
+						<a ui-sref="journey({journeyId: journey.id})"> <span id="arrow"
+							class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+						</a> <span id="spanCost"> <label
+							ng-show="!journey.seatNumber <=0">{{journey.cost |
+								currency:"&euro;"}}</label> <label id="full"
+							ng-show="journey.seatNumber <=0">Full</label>
+						</span>
+					</div>
+				</div>
+				</slide>
+			<carousel>
+		</div>
+		<div class="col-sm-4 list-group">
+			<h2 class="list-group-item active">What We Do</h2>
+			<p class="list-group-item">
+				We provide a car sharing service, where users can register and post
+				their journeys and request a seat. Fellow users can log on to the
+				site and bid for the posted journeys and journey requests. If a bid
+				is successful, the user is contacted by email. Once a journey is
+				complete, the participants are allowed to provide a review. With
+				this <strong>free</strong> service there is no need to provide
+				personal information.
+			</p>
+		</div>
+	</div>
+
+    
+
+

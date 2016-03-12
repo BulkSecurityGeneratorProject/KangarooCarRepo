@@ -1,0 +1,33 @@
+<div id="newPage">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3 list-group">
+	    	<h2 class="list-group-item active smallerText">Login</h2>
+	        <div class="form list-group-item">
+		        <form  role="form">
+		        	<div class="alert alert-danger" ng-show="authenticationError" translate="login.messages.error.authentication">
+		             <strong>Authentication failed!</strong> Please check your credentials and try again.
+		         </div>
+		            <div class="form-group">                 	
+		                <label for="username">Username</label>
+		               	<input type="text" class="form-control" id="username" placeholder="{{'global.form.username.placeholder' | translate}}" ng-model="username">
+		            </div>
+		            <div class="form-group">
+		                <label for="password" translate="login.form.password">Password</label>
+		                <input type="password" class="form-control" id="password" placeholder="{{'login.form.password.placeholder' | translate}}" ng-model="password">
+		            </div>
+		            <div class="form-group">
+		                <label for="rememberMe">
+		                    <input type="checkbox" id="rememberMe" ng-model="rememberMe" >
+		                    {{"login.form.rememberme" | translate}}
+		                </label>
+		            </div>
+		            <button type="submit" class="btn btn-primary" ng-click="login()" translate="login.form.button">Authenticate</button>
+		        </form>
+			</div>
+	        <p></p>
+			<div id="loginBox">
+			    You don't have an account yet? <b><a ui-sref="register">Register a new account</a></b>
+			</div>
+        </div>
+    </div>
+</div>

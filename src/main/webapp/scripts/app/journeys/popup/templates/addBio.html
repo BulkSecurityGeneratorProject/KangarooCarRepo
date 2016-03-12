@@ -1,0 +1,30 @@
+<div class="modal-header list-group-item active" ng-init="getMyJourneys()">
+    <h3 class="modal-title">Edit Bio</h3>
+</div>
+<div class="modal-body">
+    <form  role="form" name="form" ng-show="!success" novalidate show-validation ng-controller="ProfileController">
+        <div class="form-group">
+            <label>Bio</label>
+            <textarea id="txtArea" rows="7" type="text" class="form-control" name="message" 
+            		placeholder="Enter bio" ng-model="profile.bio" ng-minlength=4 ng-maxlength=500 required></textarea>
+        	<div ng-show="form.message.$dirty && form.message.$invalid">
+                <p class="help-block"
+                       ng-show="form.message.$error.required" >
+                    Message can not be empty
+                </p>
+                <p class="help-block"
+                       ng-show="form.message.$error.minlength" >
+                    Your bio is too short
+                </p>
+                <p class="help-block"
+                       ng-show="form.message.$error.maxlength" >
+                    Your bio is too long. The max is 500 characters.
+                </p>
+            </div>
+        </div>
+        <div>
+        	<button class="btn btn-primary" ng-disabled="form.$invalid" ng-click="updateProfile(); cancel()">Submit</button>
+    		<button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+        </div>
+	</form>
+</div>

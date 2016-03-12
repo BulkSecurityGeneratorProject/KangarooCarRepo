@@ -1,0 +1,471 @@
+<h2 class="pageHeading">Profile</h2>
+<hr>
+<div class="list-group" ng-switch="isAuthenticated()" id="newPage">
+	<tabset> <tab heading="User details">
+	<div class="row list-group-item removePaddingWhenSmall"
+		id="clearBackground">
+		<div class="list-group col-sm-8">
+			<div class="list-group-item active">
+				<h4 class="smallerText">
+					About : <span ng-controller="ModalDemoCtrl"
+						ng-click="open('addBio.html')" ng-show="isMyProfile" id="myLink"
+						class="glyphicon glyphicon-edit floatRight">edit </span>{{profileUserName}}
+				</h4>
+			</div>
+			<div id="bioContent" class="list-group-item">
+				<div class="margins">
+					<img class="profilePic"
+						ng-src='/user/profile/getProfilePicture/{{profileUserName}}'
+						alt='profile pic' />
+					<p class="smallerText">{{profile.bio}}</p>
+				</div>
+			</div>
+		</div>
+		<div class="list-group col-sm-4">
+			<div class="list-group-item active">
+				<h4 class="smallerText">Type of User: {{typeOfUser}}</h4>
+			</div>
+			&#xA0;
+			<div class="list-group-item active">
+				<h4 class="smallerText">
+					My Car:<span ng-controller="ModalDemoCtrl"
+						ng-click="open('updateCar.html')" ng-show='isMyProfile'
+						id='myLink' class='{{carEditAddIcon}} floatRight'>{{carEditAdd}}</span>
+				</h4>
+			</div>
+			<div class="list-group-item">
+				<div ng-show="isDriver">
+					<table class="smallerText">
+						<tr>
+							<td><label>Make:</label>&#xA0;</td>
+							<td>{{make}}</td>
+						</tr>
+						<tr>
+							<td><label>Model:</label>&#xA0;</td>
+							<td>{{model}}</td>
+						</tr>
+						<tr>
+							<td><label>Year:</label>&#xA0;</td>
+							<td>{{year}}</td>
+						</tr>
+					</table>
+				</div>
+				<div ng-show="!isDriver">
+					<h4 class="smallerText">{{noCar}}</h4>
+				</div>
+			</div>
+			<div class="list-group-item active">
+				<h4 class="smallerText">My Stats:</h4>
+			</div>
+			<div class="list-group-item">
+				<div>
+					<div>
+						<label class="smallerText">Rating:</label>
+						<rating ng-model="reviewData.average" max="max" readonly="true"
+							required></rating>
+					</div>
+					<p class="smallerText">
+						Based on <b>{{reviewData.number}}</b> reviews
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	</tab> <tab heading="Journeys"> <accordion id="custom-accord">
+	<accordion-group is-open="statusOne"> <accordion-heading>
+	<div>
+		<span>
+			<h4 class="smallerText">
+				My Posted Journeys
+			</h4>
+		</span>
+	</div>
+	</accordion-heading>
+	<div class="list-group-item pullDown" id="userJourneyList">
+		<table id="journeyTable" ng-show="!noJourneys" class="table table-striped journey smallerText">
+			<thead>
+				<tr>
+					<th>Source</th>
+					<th class="hidden-xs">Destination</th>
+					<th>Date</th>
+					<th>Options</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="journey in journeys">
+					<td>{{journey.source}}</td>
+					<td class="hidden-xs">{{journey.destination}}</td>
+					<td>{{journey.date | date : 'd/M/yy'}}</td>
+					<td><button class="btn btn-primary moreButton" ui-sref="journey({journeyId: journey.id})">More</button>
+						<span class="positionInitial">
+							<button ng-show="isMyProfile" ng-init="setPendingNumber(journey)"
+								class="btn btn-primary"
+								ui-sref="manageBids({journeyId: journey.id})">
+								Bids <span ng-show="journey.numberPending>0"
+									class="pendingNumber">{{journey.numberPending}}</span>
+							</button>
+					</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div ng-show="noJourneys" align="center">
+			<div class="alert alert-danger">
+	             <strong>{{profileUserName}}</strong> has not registered any journeys yet.
+	             <p><b><a ui-sref="addJourney.source">Register a new Journey</a></b></p>
+	         </div>
+		</div>
+		<pagination ng-show="!noJourneys && !singlePageJourneys"
+			class="pagination pagination-sm smallerText" ng-model="currentPage"
+			total-items="total" max-size="maxSize" boundary-links="true"
+			ng-change="pageChanged(currentPage)"> </pagination>
+	</div>
+	</accordion-group> </accordion> </tab> <tab heading="Requests"> <accordion id="custom-accord">
+	<accordion-group is-open="statusOne"> <accordion-heading>
+	<div>
+		<span>
+			<h4 class="smallerText">
+				My Posted Journey Requests
+			</h4>
+		</span>
+	</div>
+	</accordion-heading>
+	<div class="list-group-item pullDown" id="userJourneyList">
+		<table ng-show="!noJourneyRequests"	class="table table-striped smallerText">
+			<thead>
+				<tr>
+					<th>Source</th>
+					<th class="hidden-xs">Destination</th>
+					<th>Date</th>
+					<th>Options</th>
+				</tr>
+			</thead>
+			<tr ng-repeat="journeyRequest in journeyRequests">
+				<td>{{journeyRequest.source}}</td>
+				<td class="hidden-xs">{{journeyRequest.destination}}</td>
+				<td>{{journeyRequest.date}}</td>
+				<td>
+					<button class="btn btn-primary"	ui-sref="request({requestId: journeyRequest.id})">More</button>
+					<button ng-show="isMyProfile" class="btn btn-primary" ui-sref="viewContact({journeyRequestId: journeyRequest.id})">Offers</button>
+				</td>
+			</tr>
+		</table>
+		<div ng-show="noJourneyRequests" align="center">
+			<div class="alert alert-danger">
+	             <strong>{{profileUserName}}</strong> has not registered any journeys requests yet.
+	             <p><b><a ui-sref="addJourneyRequest.source">Register a new Journey Request</a></b></p>
+	         </div>
+		</div>
+		
+		<pagination ng-show="!noJourneyRequests && !singlePageJourneyRequests"
+			class="pagination pagination-sm smallerText"
+			ng-model="currentPageRequest" total-items="totalRequest"
+			max-size="maxSizeRequest" boundary-links="true"
+			ng-change="pageChangedRequest(currentPageRequest)"> </pagination>
+	</div>
+	</accordion-group> </accordion> </tab> <tab heading="Bids" ng-show="isMyProfile"> <accordion id="custom-accord">
+	<accordion-group ng-show="isMyProfile" is-open="statusOne">
+	<accordion-heading>
+	<div>
+		<span>
+			<h4 class="smallerText">
+				Journeys travelled on
+			</h4>
+		</span>
+	</div>
+	</accordion-heading>
+	<div id="userBidList">
+		<table ng-show="!noBids" class="table table-striped smallerText">
+			<thead>
+				<tr>
+					<th>Pick Up</th>
+					<th>Drop Off</th>
+					<th>Bid</th>
+					<th>Status</th>
+					<th>Journey</th>
+				</tr>
+			</thead>
+			<tr ng-repeat="bid in allBids">
+				<td>{{bid.pickupLocation}}</td>
+				<td>{{bid.dropOffLocation}}</td>
+				<td>{{bid.bid | currency:"&euro;"}}</td>
+				<td ng-class="getBidColor(bid.status);"><b>{{bid.status}}</b></td>
+				<td><a ui-sref="journey({journeyId: bid.journeyId})">View</a></td>
+			</tr>
+		</table>
+		<div ng-show="noBids" align="center">
+			<div class="alert alert-danger">
+	             <strong>{{profileUserName}}</strong> has not bid on any journeys yet.
+	             <p><b><a ui-sref="findJourneys">Bid on a Journey.</a></b></p>
+	         </div>
+		</div>
+		<div ng-show="!isMyProfile" align="center">
+			<div class="alert alert-danger">
+	             <div>Not allowed to view details</div>
+	         </div>
+		</div>
+		<pagination ng-show="!noBids && !singlePageBids"
+			class="pagination pagination-sm" ng-model="bidData.currentPage"
+			total-items="bidData.total" max-size="bidData.maxSize"
+			boundary-links="true"
+			ng-change="pageChangedBids(bidData.currentPage)"> </pagination>
+	</div>
+	</accordion-group> </accordion> </tab> </tabset>
+
+	<div class="row list-group-item removePaddingWhenSmall" id="clearBackground">
+		<div class="list-group col-sm-10 col-sm-offset-1 mapPadding">
+			<ul class="nav nav-pills" style="margin-bottom: -4px" id="myLink">
+				<li class="{{commentsActive}}"><a
+					ng-click="switchTabs('comments')">Comments</a></li>
+				<li class="{{reviewsActive}}"><a
+					ng-click="switchTabs('reviews')">Reviews</a></li>
+			</ul>
+			<div ng-show="commentsIsActive">
+				<div class="list-group-item active">
+					<h4 class="smallerText">Leave me a Comment</h4>
+				</div>
+				<div class="list-group-item " id="commentDiv">
+					<div id="commentOuter">
+						<img class="commentPic BorderStyle" ng-switch-when="true"
+							id="profilePic commentImg"
+							ng-src='/user/profile/getProfilePicture/{{me}}' alt='profile pic' />
+						<img class="commentPic BorderStyle" ng-switch-when="false"
+							id="profilePic commentImg"
+							src='../../../assets/images/default.jpg' alt='profile pic' />
+						<div>
+							<form id="commentTextArea" role="form" name="form"
+								ng-show="!success" novalidate show-validation>
+								<div class="form-group">
+									<textarea id="txtArea" rows="5" 
+										class="form-control" name="message" placeholder="Add comment"
+										ng-model="comment" ng-minlength=1 ng-maxlength=400 required></textarea>
+									<div ng-show="form.message.$dirty && form.message.$invalid">
+										<p class="help-block" ng-show="form.message.$error.required">
+											Comment can not be empty</p>
+										<p class="help-block" ng-show="form.message.$error.minlength">
+											Your comment is too short</p>
+										<p class="help-block" ng-show="form.message.$error.maxlength">
+											Your comment is too long. The max is 400 characters.</p>
+									</div>
+								</div>
+								<div align="left" class="alert alert-danger"
+									ng-show="commentError">
+									<strong>An error occured while posting your comment</strong>
+								</div>
+								<div>
+									<button ng-switch-when="true" class="btn btn-primary"
+										ng-disabled="form.$invalid" ng-click="postComment()">
+										Post <span class="glyphicon glyphicon-comment"></span>
+									</button>
+									<button ng-switch-when="false" class="btn btn-primary"
+										ng-disabled="form.$invalid" ui-sref="login">
+										Post <span class="glyphicon glyphicon-comment"></span>
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="list-group-item mapPadding" id="clearBackground">
+					<div align="right">
+						<button ng-show="!showComments" class="btn btn-primary"
+							ng-click="toggleComments()">View Comments</button>
+					</div>
+					<div ng-show="showComments" ng-repeat="comment in comments">
+						<br />
+						<div class="list-group-item fadeIn" id="commentDiv">
+							<div class="row">
+								<div class="margins" ng-init="comment.showme = false">
+									<img id="myLink"
+										ui-sref="profile({username: comment.senderUserName})"
+										class="commentPic"
+										ng-src='/user/profile/getProfilePicture/{{comment.senderUserName}}'
+										alt='profile pic' /> <a id="commentLink"
+										ui-sref="profile({username: comment.senderUserName})"><b>{{comment.senderUserName}}</b></a>
+									<time class="timeForComment" am-time-ago="comment.date"
+										title="{{ comment.date | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}"></time>
+									<p>{{comment.message}}</p>
+									<a href ng-click="comment.showme = !comment.showme">reply</a>
+								</div>
+							</div>
+							<br />
+							<div align="right" ng-show="comment.showme">
+								<form align="right" role="form" name="formReply"
+									ng-show="!success" novalidate show-validation>
+									<div
+										ng-show="formReply.replyMessage.$dirty && formReply.replyMessage.$invalid">
+										<p class="help-block"
+											ng-show="formReply.replyMessage.$error.required">Reply
+											can not be empty</p>
+										<p class="help-block"
+											ng-show="formReply.replyMessage.$error.minlength">Your
+											reply is too short</p>
+										<p class="help-block"
+											ng-show="formReply.replyMessage.$error.maxlength">Your
+											reply is too long. The max is 400 characters.</p>
+									</div>
+									<textarea id="commentBox" rows="3" 
+										class="form-control" name="replyMessage"
+										placeholder="Add reply" ng-model="comment.replyMessage"
+										ng-minlength=1 ng-maxlength=400 required></textarea>
+									<div ng-switch="isAuthenticated()">
+										<button ng-switch-when="true" class="btn btn-primary"
+											ng-disabled="formReply.$invalid"
+											ng-click="sendReply(comment.id, comment)">
+											<span class="glyphicon glyphicon-share-alt"></span>
+										</button>
+										<button ng-switch-when="false" class="btn btn-primary"
+											ng-disabled="formReply.$invalid" ui-sref="login">
+											<span class="glyphicon glyphicon-share-alt"></span>
+										</button>
+										<button class="btn btn-primary" ng-show="!comment.replies"
+											ng-init="getReplies(comment.id)">Show Replies</button>
+									</div>
+								</form>
+							</div>
+							<br />
+							<div>
+								<div ng-show="comment.replies.content.length==0" align="center">
+								</div>
+								<div>
+									<div ng-repeat="reply in comment.replies.content">
+										<div class="margins fadeIn">
+											<img id="myLink" class="commentPic BorderStyle"
+												ui-sref="profile({username: reply.senderUserName})"
+												ng-src='/user/profile/getProfilePicture/{{reply.senderUserName}}'
+												alt='profile pic' /> <a id="commentLink"
+												ui-sref="profile({username: reply.senderUserName})"> <b>{{reply.senderUserName}}</b>
+											</a>
+											<time class="timeForComment txtSize" am-time-ago="reply.date"
+												title="{{ reply.date | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}"></time>
+											<p>{{reply.message}}</p>
+											<hr />
+										</div>
+									</div>
+									<div ng-show="!comment.replies.last && comment.replies"
+										align="center">
+										<a href
+											ng-click="showMorereplies((comment.replies.number + 1), comment.id)">show
+											more</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div align="center" ng-show="more">
+						<a href ng-click="showMoreComments()">more</a>
+					</div>
+				</div>
+			</div>
+			<div ng-show="reviewsIsActive">
+				<div class="list-group-item active">
+					<h4 class="smallerText">Review our journey</h4>
+				</div>				
+				<div class="list-group-item " id="commentDiv">
+					<div>
+						<select class="form-control" name="selectedJourney"
+							ng-model="journeyId" ng-minlength=1 required>
+							<option value="" disabled selected>Select journey</option>
+							<option ng-repeat="journey in commonJourneys"
+								value="{{journey.id}}">{{journey.date
+								|date:'d/M/yy'}} {{journey.source}} to
+								{{journey.destination}}</option>
+						</select>
+					</div>
+					<br>
+					<div class="alert alert-danger" ng-show="cantDo">
+						<strong>You can't do that</strong>
+					</div>
+					<div id="reviewOuter">
+						<img class="commentPic BorderStyle" ng-switch-when="true"
+							id="profilePic commentImg"
+							ng-src='/user/profile/getProfilePicture/{{me}}' alt='profile pic' />
+						<img class="commentPic" ng-switch-when="false"
+							id="profilePic commentImg"
+							src='../../../assets/images/default.jpg' alt='profile pic' />
+						<div>
+							
+							<form id="commentTextArea" role="form" name="formReview"
+								ng-show="!success" novalidate show-validation>
+								<div class="form-group">
+									<textarea id="txtArea" rows="5" 
+										class="form-control" name="message" placeholder="Add review"
+										ng-model="review" ng-minlength=1 ng-maxlength=400 required></textarea>
+									<div
+										ng-show="formReview.message.$dirty && formReview.message.$invalid">
+										<p class="help-block"
+											ng-show="formReview.message.$error.required">Review can
+											not be empty</p>
+										<p class="help-block"
+											ng-show="formReview.message.$error.minlength">Your review
+											is too short</p>
+										<p class="help-block"
+											ng-show="formReview.message.$error.maxlength">Your review
+											is too long. The max is 400 characters.</p>
+									</div>
+								</div>
+								<div align="left" class="alert alert-danger"
+									ng-show="commentError">
+									<strong>An error occured while posting your comment</strong>
+								</div>
+								
+
+								<div align="left" class="txtSizeLrgStar">
+									<rating ng-model="rate" max="max" readonly="isReadonly"
+										on-hover="hoveringOver(value)" on-leave="overStar = null"
+										required></rating>
+									<span class="label"
+										ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}"
+										ng-show="overStar && !isReadonly">{{percent}}% </span>
+								</div>
+								<div>
+									<button ng-switch-when="true" class="btn btn-primary"
+										ng-disabled="formReview.$invalid" ng-click="sendReview()">Submit</button>
+									<button ng-switch-when="false" class="btn btn-primary"
+										ng-disabled="formReview.$invalid" ui-sref="login">Submit</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="list-group-item" id="clearBackground">
+					<div align="right">
+						<button ng-show="!showReviews" class="btn btn-primary"
+							ng-click="toggleReviews(); getReviews();">View Reviews</button>
+					</div>
+					<div align="center" ng-show="reviews.content.length == 0">
+						<h2>No reviews</h2>
+					</div>
+					<div ng-show="showReviews" ng-repeat="review in reviews.content">
+						<br />
+						<div class="list-group-item fadeIn" id="commentDiv">
+							<div class="row">
+								<div class="margins">
+									<img id="myLink"
+										ui-sref="profile({username: review.senderUserName})"
+										class="commentPic BorderStyle"
+										ng-src='/user/profile/getProfilePicture/{{review.senderUserName}}'
+										alt='profile pic' /> <a id="commentLink"
+										ui-sref="profile({username: review.senderUserName})"><b>{{review.senderUserName}}</b></a>
+									<time class="timeForComment" am-time-ago="review.date"
+										title="{{ review.date | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}"></time>
+									<p>{{review.message}}</p>
+									<div align="left" class="txtSizeLrgStar">
+										<rating ng-model="review.value" max="max" readonly="true"
+											required></rating>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div align="center" ng-show="showReviews && !reviews.last">
+						<a href ng-click="showMoreReview()">more</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+

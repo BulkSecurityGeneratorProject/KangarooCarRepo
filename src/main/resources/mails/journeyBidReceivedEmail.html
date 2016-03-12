@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title th:text="#{email.activation.title}">CarShare activation</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+    	<div class="kangarooBody" style="background-color:#F3FCE6;">
+    		<div align="center" style="background-color:#6db33f; color:#fff; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+    			<h2 class="kangarooBody" style="margin-top:0px; margin-bottom:0px; padding:10px;" th:text="#{email.all.appname}">KangarooCar</h2>
+    		</div>
+    		<div class="kangarooBody" style="background-color:#F3FCE6; padding:10px;">
+		        <p th:text="#{email.activation.greeting(${user.login})}">
+		            Dear
+		        </p>
+		        <p th:text="#{email.journeyBid.text1(${sender.login}, ${journey.source},${journey.destination})}">
+		            user has made a bid on one of your journeys.
+		        </p>
+		        <p th:text="#{email.journeyBid.text2(${sender.login},${bid.bid},${bid.pickupLocation},${bid.dropOffLocation})}">
+		            user bid EUR to go from pickup to dropoff.
+		        </p>
+		        <p>
+		            <a th:href="@{|http://carshare.fexcosoftware.com/#/manageBids/${journey.id}|}" >View</a>&nbsp;&nbsp;&nbsp;
+		            <a th:href="@{|http://carshare.fexcosoftware.com/api/journeyBid/bidForJourney/${bid.id}/accepted|}" >accept</a>&nbsp;&nbsp;&nbsp;
+		            <a th:href="@{|http://carshare.fexcosoftware.com/api/journeyBid/bidForJourney/${bid.id}/rejected|}" >reject</a>&nbsp;&nbsp;&nbsp;
+		        </p>
+		        <p>
+		            <span th:text="#{email.activation.text2}">Regards, </span>
+		            <br/>
+		            <em th:text="#{email.signature}">CarShare.</em>
+		        </p>
+	        </div>
+        </div>
+    </body>
+</html>
