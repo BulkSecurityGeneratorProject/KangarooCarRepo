@@ -6,11 +6,11 @@ spring:
         active: stagging
     datasource:
         dataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
-        url: jdbc:mysql://localhost:3306/car_share
+        url: jdbc:mysql://bb76fcb43f807b:6776566b@us-cdbr-aws-east-105.cleardb.net:3306/ad_033c9629217c759
         databaseName:
         serverName: 
-        username: root
-        password: CLf3hkcmatusz
+        username: bb76fcb43f807b
+        password: 6776566b
         validation-query: SELECT 1
         test-on-borrow: true
         cachePrepStmts: true

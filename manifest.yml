@@ -3,4 +3,4 @@ applications:
 - name: KangarooCar
   memory: 512M
   host: kangaroocar
-  path: target/carshare-0.0.1-SNAPSHOT.war
+  path: target/carshare-0.0.1-SNAPSHOT.war.original
